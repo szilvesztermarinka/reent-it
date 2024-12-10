@@ -1,0 +1,55 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGO_URI")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+  password String
+  firstname String
+  lastname String
+  avatar String?
+  lastlogin DateTime @default(now())
+  isVerified Boolean @default(false)
+
+  resetPasswordToken String?
+  resetPasswordExpiresAt DateTime?
+  verificationToken String?
+  verificationTokenExpiresAt DateTime?
+
+  posts Post[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  property Property
+  type Type
+  price Int
+  description String
+  deposit Int
+  bedroom Int
+  livingroom Int
+  images String[]
+  balcony Int?
+  owner User @relation(fields: [ownerId], references: [id])
+  ownerId String @db.ObjectId
+}
+
+enum Type {
+  rent
+  buy
+}
+
+enum Property {
+  House
+  Apartment
+  Room
+}
