@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Inter:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic");
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+HU:wght@100..400&family=Playwrite+US+Trad+Guides&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,4 +9,9 @@
 *::before,
 *::after {
     font-family: 'Inter';
+}
+
+
+.playwrite {
+    font-family: "Playwrite HU";
 }

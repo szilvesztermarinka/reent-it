@@ -17,7 +17,7 @@ const HomePage = () => {
                 {post.map((item) => (
                     <ItemComponent key={item.id} {...item} />
                 ))}
-                <ItemComponent />
+{/*                 <ItemComponent />
                 <ItemComponent type="buy"/>
                 <ItemComponent type="buy"/>
                 <ItemComponent type="room"/>
@@ -30,7 +30,7 @@ const HomePage = () => {
                 <ItemComponent/>
                 <ItemComponent/>
                 <ItemComponent/>
-                <ItemComponent/> 
+                <ItemComponent/>  */}
             </div>
         </div>
     );

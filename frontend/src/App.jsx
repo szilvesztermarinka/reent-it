@@ -6,6 +6,7 @@ import { useAuth } from "./context/AuthContext";
 import { Toaster, toast } from "react-hot-toast";
 import { useEffect } from "react";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
+import Notfound from "./pages/404";
 
 function App() {
     const { isAuthenticated, isCheckingAuth, error, message, user} = useAuth();
@@ -32,7 +33,7 @@ function App() {
                 <Route path="/verify-email" element={!isAuthenticated ? <LoginPage /> : user?.isVerified ? <Navigate to="/" replace /> : <EmailVerificationPage />} />
 
                 {/* 404 Page */}
-                <Route path="*" element="404" />
+                <Route path="*" element={<Notfound/>} />
             </Routes>
         </div>
     );
