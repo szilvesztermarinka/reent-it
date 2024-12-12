@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Input from "../components/Input";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import kep from "../assets/izelito.png";
 import { IconCheck, IconLoader2 } from "@tabler/icons-react";
 import { useAuth } from "../context/AuthContext";
@@ -12,11 +12,12 @@ const SignUpPage = () => {
     const [password, setPassword] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+    const navigate = useNavigate();
 
     const handleSignup = async (e) => {
         e.preventDefault();
         await signup(email, password, firstName, lastName);
-        Navigate("/verify-email");
+        navigate("/verify-email");  
     };
 
     return (

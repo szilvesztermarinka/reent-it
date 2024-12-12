@@ -1,5 +1,5 @@
 import bcryptjs from "bcryptjs/dist/bcrypt.js";
-import crypto from "crypto-js";
+import crypto from "crypto";
 
 import { prisma } from "../config/prismaclient.js";
 
@@ -73,7 +73,7 @@ export const verifyEmail = async (req, res) => {
             },
         });
 
-        await sendWelcomeEmail(user.email, user.name);
+        await sendWelcomeEmail(user.email, user.firstname);
 
         res.status(200).json({ success: true, message: "Email verified successfully" });
     } catch (error) {
