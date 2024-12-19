@@ -17,10 +17,9 @@ const ItemComponent = (item) => {
         navigate(`/post/${item.id}`);
     };
     return (
-        <div className="flex bg-white p-2 shadow rounded-xl hover:shadow-md transition duration-200 cursor-pointer group" onClick={handleClick}>
+        <div className="flex bg-white p-2 shadow rounded-xl hover:shadow-md transition duration-200 cursor-pointer" onClick={handleClick}>
             <div className="mr-4">
-                <img src={item.images[0]} alt="Kép" className="w-36 h-36 rounded-l group-hover:hidden" />
-                <img src={item.images[1]} alt="Kép" className="w-36 h-36 rounded-l hidden group-hover:block" />
+                <img src={item.images[0]} alt="Kép" className="w-36 h-36 rounded-l" />
             </div>
             <div className="flex-1 flex-col justify-between flex">
                 {/* Price & Address & Type */}
