@@ -8,7 +8,7 @@ const HomePage = () => {
 
     useEffect(() => {
         getPosts();
-    }, [post])
+    }, [])
 
     return (
         <div className="max-h-full overflow-hidden">
@@ -17,20 +17,6 @@ const HomePage = () => {
                 {post.map((item) => (
                     <ItemComponent key={item.id} {...item} />
                 ))}
-{/*                 <ItemComponent />
-                <ItemComponent type="buy"/>
-                <ItemComponent type="buy"/>
-                <ItemComponent type="room"/>
-                <ItemComponent/>
-                <ItemComponent/>
-                <ItemComponent/>
-                <ItemComponent/>
-                <ItemComponent/>
-                <ItemComponent/>
-                <ItemComponent/>
-                <ItemComponent/>
-                <ItemComponent/>
-                <ItemComponent/>  */}
             </div>
         </div>
     );

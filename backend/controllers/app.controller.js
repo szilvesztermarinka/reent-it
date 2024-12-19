@@ -7,6 +7,7 @@ export const getAllAd = async (req, res) => {
         const posts = await prisma.post.findMany();
         
         res.status(200).json({success: true, posts})
+        console.log(posts)
     } catch (error) {
         console.log(error)
     }

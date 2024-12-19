@@ -41,6 +41,9 @@ model Post {
   balcony Int?
   owner User @relation(fields: [ownerId], references: [id])
   ownerId String @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum Type {
