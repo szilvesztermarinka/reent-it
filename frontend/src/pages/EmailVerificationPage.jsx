@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
@@ -43,7 +43,7 @@ const EmailVerificationPage = () => {
 		}
 	};
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = useCallback( async (e) => {
 		e.preventDefault();
 		const verificationCode = code.join("");
 		try {
@@ -53,14 +53,14 @@ const EmailVerificationPage = () => {
 		} catch (error) {
 			console.log(error);
 		}
-	};
+	});
 
 	// Auto submit when all fields are filled
 	useEffect(() => {
 		if (code.every((digit) => digit !== "")) {
 			handleSubmit(new Event("submit"));
 		}
-	}, [code]);
+	}, [code,handleSubmit]);
 
 	return (
 		<div className='max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden'>

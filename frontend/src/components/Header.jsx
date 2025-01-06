@@ -11,9 +11,15 @@ const Header = () => {
     const dropdownRef = useRef(null);
 
     const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+/*         console.log(event.target); 
+
+        if (
+            dropdownRef.current &&
+            !dropdownRef.current.contains(event.target) &&
+            !event.target.closest(".leaflet-container") // Ne reagáljon a térképre kattintásra
+        ) {
             setDropDownMenu(false);
-        }
+        } */
     };
 
     const toggleDropDown = () => {
@@ -33,7 +39,7 @@ const Header = () => {
     };
 
     return (
-        <div className="bg-white w-full py-4 px-16">
+        <div className="bg-white w-full py-4 px-16 border-b z-50">
             <div className="flex justify-between items-center">
                 <div>
                     <h1 className="text-3xl font-bold text-black text-center">Reent</h1>
@@ -45,7 +51,7 @@ const Header = () => {
                         <img src="https://i.pravatar.cc/300" alt="avatar" className="w-full h-full rounded-full" />
                     </motion.div>
                     {dropDownMenu && (
-                        <div className="min-w-96 py-4 px-4 absolute top-20 right-10 bg-white rounded-md" ref={dropdownRef}>
+                        <div className="min-w-96 py-4 px-4 absolute top-20 right-10 bg-white rounded-md z-50" ref={dropdownRef}>
                             <div className="w-full flex gap-2 cursor-pointer items-center hover:bg-gray-100 px-4 py-4 rounded">
                                 <div className="w-10 h-10">
                                     <img src="https://i.pravatar.cc/300" alt="avatar" className="w-full h-full rounded-full" />

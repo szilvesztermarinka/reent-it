@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import Input from "../components/Input";
 import { Link, useNavigate } from "react-router-dom";
 import kep from "../assets/izelito.png";
 import { IconCheck, IconLoader2 } from "@tabler/icons-react";
 import { useAuth } from "../context/AuthContext";
-import { get } from "mongoose";
 
 const SignUpPage = () => {
   const { signup, loading } = useAuth();
@@ -21,12 +20,16 @@ const SignUpPage = () => {
 
   const navigate = useNavigate();
 
-  const validatePassword = () => {
+  const validatePassword = useCallback(() => {
     setIsLengthValid(password.length >= 8);
     setIsUpperCase(/[A-Z]/.test(password));
     setIsLowerCase(/[a-z]/.test(password));
     setIsNumber(/[0-9]/.test(password));
-  };
+  }, [password]);
+  
+  useEffect(() => {
+    validatePassword();
+  }, [validatePassword]);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -38,9 +41,6 @@ const SignUpPage = () => {
     return isValid ? "text-green-500" : "text-gray-500";
   };
 
-  useEffect(() => {
-    validatePassword();
-  }, [password]);
 
   return (
     <div className="flex justify-center items-center h-screen">

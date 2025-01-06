@@ -1,8 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
-const API_URL = "http://localhost:5000/api/auth";
-const APP_API_URL = "http://localhost:5000/api/app";
-axios.defaults.withCredentials = true;
+import { authAPI } from "../services/api";
 
 const AuthContext = createContext();
 
@@ -17,7 +14,6 @@ export const AuthProvider = ({ children }) => {
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [post, setPost] = useState([]);
 
     // checkAuth - hitelesítés ellenőrzése
     const checkAuth = async () => {
@@ -25,7 +21,7 @@ export const AuthProvider = ({ children }) => {
         setError(null); // Nullázzuk a hibát
         setMessage(null); // Nullázzuk az üzenetet
         try {
-            const response = await axios.get(`${API_URL}/check-auth`);
+            const response = await authAPI.get(`/check-auth`);
             setUser(response.data.user);
             setIsAuthenticated(true);
             setError(null); // Töröljük a hibát sikeres válasz esetén
@@ -39,25 +35,14 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const getPosts = async () => {
-        setLoading(true);
-        try {
-            const response = await axios.get(`${APP_API_URL}/all-ad`);
-            setPost(response.data.posts);
-            setLoading(false);
-        } catch (error) {
-            setError(error.response.data.message || "Error getting posts");
-            setLoading(false);
-        }
-    };
-
     // login - bejelentkezés
     const login = async (email, password) => {
         setLoading(true);
         setError(null); // Nullázzuk a hibát
         setMessage(null); // Nullázzuk az üzenetet
         try {
-            const response = await axios.post(`${API_URL}/login`, { email, password });
+            const response = await authAPI
+            .post('/login', { email, password });
             setUser(response.data.user);
             setIsAuthenticated(true);
             setMessage(response.data.message);
@@ -79,7 +64,7 @@ export const AuthProvider = ({ children }) => {
         setError(null); // Nullázzuk a hibát
         setMessage(null); // Nullázzuk az üzenetet
         try {
-            const response = await axios.post(`${API_URL}/logout`);
+            const response = await authAPI.post(`/logout`);
             setUser(null);
             setIsAuthenticated(false);
             setMessage(response.data.message);
@@ -100,7 +85,7 @@ export const AuthProvider = ({ children }) => {
         setMessage(null);
         setUser(null);
         try {
-            const response = await axios.post(`${API_URL}/signup`, { email, password, firstname, lastname });
+            const response = await authAPI.post(`/signup`, { email, password, firstname, lastname });
             console.log(response);
             setUser(response.data.user);
             setIsAuthenticated(true);
@@ -117,7 +102,7 @@ export const AuthProvider = ({ children }) => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.post(`${API_URL}/verify-email`, { code });
+            const response = await authAPI.post(`/verify-email`, { code });
             setUser(response.data.user);
             setIsAuthenticated(true);
             setLoading(false);
@@ -147,9 +132,7 @@ export const AuthProvider = ({ children }) => {
                 logout,
                 checkAuth,
                 signup,
-                verifyEmail,
-                getPosts,
-                post,
+                verifyEmail
             }}
         >
             {children}

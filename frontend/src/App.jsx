@@ -9,7 +9,7 @@ import EmailVerificationPage from "./pages/EmailVerificationPage";
 import Notfound from "./pages/404";
 
 function App() {
-    const { isAuthenticated, isCheckingAuth, error, message, user} = useAuth();
+    const { isAuthenticated, isCheckingAuth, error, message, user } = useAuth();
 
     useEffect(() => {
         if (error) {
@@ -23,7 +23,7 @@ function App() {
     if (isCheckingAuth) return <div>Loading...</div>;
 
     return (
-        <div className="h-screen bg-gray-200">
+        <div className="h-screen bg-gray-100">
             <Toaster position="bottom-right" reverseOrder={false} />
 
             <Routes>
@@ -33,7 +33,7 @@ function App() {
                 <Route path="/verify-email" element={!isAuthenticated ? <LoginPage /> : user?.isVerified ? <Navigate to="/" replace /> : <EmailVerificationPage />} />
 
                 {/* 404 Page */}
-                <Route path="*" element={<Notfound/>} />
+                <Route path="*" element={<Notfound />} />
             </Routes>
         </div>
     );
