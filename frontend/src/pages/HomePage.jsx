@@ -7,17 +7,22 @@ import Mapbox from "../components/Mapbox";
 
 const HomePage = () => {
     const [post, setPost] = useState([]);
+    const [filters, setFilters] = useState({}); 
 
     const getPosts = useCallback(async () => {
         try {
-            const response = await appAPI.get(`/all-ad`);
-            setPost(response.data.posts);
-            console.log(response.data.posts);
-            console.log(response);
+            const queryParams = new URLSearchParams(filters).toString();
+            const response = await appAPI.get(`/all-ad?${queryParams}`);
+            console.log(response.data.ads)
+            setPost(response.data.ads);
         } catch (error) {
             console.error(error.response.data.message || "Error getting posts");
         }
-    }, []);
+    }, [filters]);
+
+    const handleFiltersChange = (newFilters) => {
+        setFilters(newFilters); 
+      };
 
     useEffect(() => {
         getPosts();
@@ -28,7 +33,7 @@ const HomePage = () => {
             <Header />
             <div className="flex flex-row w-full h-screen">
                 {/* Sidebar/filters */}
-                <Sidebar />
+                <Sidebar onFiltersChange={handleFiltersChange} />
 
                 {/* Posts */}
                 <div className="w-1/3 h-screen m-6 flex flex-col gap-4 overflow-y-scroll">
@@ -39,7 +44,7 @@ const HomePage = () => {
 
                 {/* Mapbox */}
                 <div className="w-1/3 h-full">
-                    <Mapbox />
+                    <Mapbox ads={post} />
                 </div>
             </div>
         </div>

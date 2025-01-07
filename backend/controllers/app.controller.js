@@ -3,9 +3,6 @@ import { prisma } from "../config/prismaclient.js";
 const OPERATORS = {
   lte: "lte",
   gte: "gte",
-  contains: "contains",
-  startsWith: "startsWith",
-  endsWith: "endsWith",
 };
 
 export const getAllAd = async (req, res) => {
@@ -31,7 +28,7 @@ export const getAllAd = async (req, res) => {
       where: filters,
     });
 
-    if (!ads || ads.length === 0) {
+    if (!ads ) {
         return res.status(404).json({ success: false, message: "No ads found" });
       }
 
