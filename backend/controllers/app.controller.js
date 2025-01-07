@@ -78,3 +78,27 @@ export const savePost = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
+export const unsavePost = async (req, res) => {
+    try {
+        const { postId } = req.body;
+
+        const savedPost = await prisma.savedPost.findFirst({
+            where: {
+                postId,
+                userId: req.userId,
+            },
+        });
+
+        if (!savedPost) return res.status(404).json({ success: false, message: "Post not found" });
+
+        await prisma.savedPost.delete({
+            where: {
+                id: savedPost.id,
+            },
+        });
+        res.status(200).json({ success: true, message: "Post unsaved successfully" });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
