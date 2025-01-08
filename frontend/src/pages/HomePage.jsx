@@ -13,7 +13,6 @@ const HomePage = () => {
         try {
             const queryParams = new URLSearchParams(filters).toString();
             const response = await appAPI.get(`/all-ad?${queryParams}`);
-            console.log(response.data.ads)
             setPost(response.data.ads);
         } catch (error) {
             console.error(error.response.data.message || "Error getting posts");
