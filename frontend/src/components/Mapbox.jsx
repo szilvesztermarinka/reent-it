@@ -1,20 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import "leaflet/dist/leaflet.css";
-import { MapContainer, Marker, Popup, TileLayer, CircleMarker, useMap } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import MarkerClusterGroup from "react-leaflet-cluster";
 import L from "leaflet";
 
 const Mapbox = ({ ads }) => {
-  const [zoom, setZoom] = useState(13);
-  const [clusteredMarkers, setClusteredMarkers] = useState([]);
-  const mapRef = useRef(null); // Referencia a térképre
-
-  // Formázza az árat
   const formatPrice = (price) =>
     price >= 1000000
       ? `${(price / 1000000).toFixed(1).replace(/\.0$/, "")} M Ft`
       : `${price.toLocaleString("hu-HU")} Ft`;
 
-  // Egyedi ikon létrehozása
   const createCustomIcon = (price, type) => {
     const styles = {
       base: `
@@ -41,60 +36,21 @@ const Mapbox = ({ ads }) => {
     });
   };
 
-  // Csoportosítás
-  const handleCluster = () => {
-    const threshold = 0.001; // A körzetek közötti távolság küszöbe
-    const newClusters = [];
-
-    ads.forEach((item) => {
-      if (!item.coords.lat || !item.coords.long) return; // Ha nincs pozíció, ne dolgozzunk vele
-      let addedToCluster = false;
-      newClusters.forEach((cluster) => {
-        const distance = Math.sqrt(
-          Math.pow(item.coords.lat - cluster.lat, 2) + Math.pow(item.coords.long - cluster.long, 2)
-        );
-        if (distance < threshold) {
-          cluster.ads.push(item);  // Egyesítjük a hirdetéseket
-          cluster.totalPrice += item.price;
-          addedToCluster = true;
-        }
-      });
-
-      if (!addedToCluster) {
-        newClusters.push({
-          lat: item.coords.lat,
-          long: item.coords.long,
-          ads: [item],
-          totalPrice: item.price,
-        });
-      }
-    });
-
-    setClusteredMarkers(newClusters);
-  };
-
-  // Zoom szint figyelése és markerek dinamikus megjelenítése
-  useEffect(() => {
-    if (mapRef.current) {
-      mapRef.current.on("zoomend", () => {
-        setZoom(mapRef.current.getZoom()); // A zoom szint frissítése
-      });
-    }
-  }, []);
-
-  // A markereket csoportosítjuk
-  useEffect(() => {
-    handleCluster(); // A hirdetéseket mindig csoportosítjuk
-  }, [ads]);
+  const customClusterIcon = function (cluster) {
+    return L.divIcon({
+      html: `<span>${cluster.getChildCount()}</span>`,
+      className: "custom-cluster-icon",
+      iconSize: L.point(33, 33, true)
+    })
+  }
 
   return (
     <MapContainer
       center={[51.505, 4.09]}
-      zoom={zoom}
-      scrollWheelZoom
+      zoom={13}
+      scrollWheelZoom={true}
       zoomControl={false}
       style={{ width: "100%", height: "100%", zIndex: 1 }}
-      ref={mapRef}
     >
       <TileLayer
         url={process.env.REACT_APP_MAPBOX_URL}
@@ -106,29 +62,22 @@ const Mapbox = ({ ads }) => {
                         </a>
                       </strong>'
       />
-
-      {/* Csoportosított marker körök */}
-      {clusteredMarkers.map((cluster, index) => {
-        return zoom < 12 ? (
-          <CircleMarker
-            key={index}
-            center={[cluster.lat, cluster.long]}
-            radius={15}
-            color="#FF5733"
-            fillOpacity={0.4}
-            fillColor="#FF5733"
-          >
-            <Popup>
-              <strong>Total Price:</strong> {formatPrice(cluster.totalPrice)} <br />
-              <strong>Number of Ads:</strong> {cluster.ads.length}
-            </Popup>
-          </CircleMarker>
-        ) : null; // Ha közel zoomolunk, ne jelenjen meg a CircleMarker
-      })}
-
-      {/* Egyedi markerek, ha elég nagy a zoom */}
-      {zoom >= 12 &&
-        ads.map(
+      <MarkerClusterGroup
+        className="border-solid border-2 border-black"
+        showCoverageOnHover
+        maxClusterRadius={60} // A csoportosítás távolsága
+        spiderfyOnMaxZoom={true} // Az egyedi markerek széthúzása zoomoláskor
+        disableClusteringAtZoom={16} // Zoom szint, ahol már nem csoportosít
+        iconCreateFunction={customClusterIcon}
+        polygonOptions={{
+          fillColor: '#ffffff',
+          color: '#f00800',
+          weight: 5,
+          opacity: 1,
+          fillOpacity: 0.8,
+        }}
+      >
+        {ads.map(
           (item) =>
             item.coords.lat &&
             item.coords.long && (
@@ -153,6 +102,7 @@ const Mapbox = ({ ads }) => {
               </Marker>
             )
         )}
+      </MarkerClusterGroup>
     </MapContainer>
   );
 };
