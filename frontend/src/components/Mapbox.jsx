@@ -10,6 +10,23 @@ const Mapbox = ({ ads }) => {
       ? `${(price / 1000000).toFixed(1).replace(/\.0$/, "")} M Ft`
       : `${price.toLocaleString("hu-HU")} Ft`;
 
+  const calculateCenter = (ads) => {
+    const validCoords = ads.filter(
+      (item) => item.coords.lat && item.coords.long
+    );
+    if (validCoords.length === 0) return [47.50748265850585, 19.04492472631566]; // Alapértelmezett érték, ha nincs találat
+
+    const latSum = validCoords.reduce((sum, item) => sum + item.coords.lat, 0);
+    const longSum = validCoords.reduce(
+      (sum, item) => sum + item.coords.long,
+      0
+    );
+
+    return [latSum / validCoords.length, longSum / validCoords.length];
+  };
+
+  const center = calculateCenter(ads);
+
   const createCustomIcon = (price, type) => {
     const styles = {
       base: `
@@ -40,13 +57,13 @@ const Mapbox = ({ ads }) => {
     return L.divIcon({
       html: `<span>${cluster.getChildCount()}</span>`,
       className: "custom-cluster-icon",
-      iconSize: L.point(33, 33, true)
-    })
-  }
+      iconSize: L.point(33, 33, true),
+    });
+  };
 
   return (
     <MapContainer
-      center={[51.505, 4.09]}
+      center={center}
       zoom={13}
       scrollWheelZoom={true}
       zoomControl={false}
@@ -63,15 +80,14 @@ const Mapbox = ({ ads }) => {
                       </strong>'
       />
       <MarkerClusterGroup
-        className="border-solid border-2 border-black"
-        showCoverageOnHover
+        showCoverageOnHover={false}
         maxClusterRadius={60} // A csoportosítás távolsága
         spiderfyOnMaxZoom={true} // Az egyedi markerek széthúzása zoomoláskor
         disableClusteringAtZoom={16} // Zoom szint, ahol már nem csoportosít
         iconCreateFunction={customClusterIcon}
         polygonOptions={{
-          fillColor: '#ffffff',
-          color: '#f00800',
+          fillColor: "#ffffff",
+          color: "#f00800",
           weight: 5,
           opacity: 1,
           fillOpacity: 0.8,
