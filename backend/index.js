@@ -18,6 +18,7 @@ app.use(cookieParser()); // allows us to parse cookies
 app.use("/api/auth", authRoutes);
 app.use("/api/app", verifyToken, appRoutes);
 
+
 app.listen(PORT, () => {
   console.log("Server is running on port: ", PORT);
 });
