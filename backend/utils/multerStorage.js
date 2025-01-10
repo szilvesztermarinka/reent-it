@@ -16,7 +16,7 @@ export const multerStorage = (fieldName) => {
                 .normalize("NFD")
                 .replace(/[\u0300-\u036f]/g, "")
                 .replace(/[^a-zA-Z0-9.\-_]/g, "_");
-            const fileName = `${uuidv4()}-${sanitizedFileName}`; // Javítva!
+            const fileName = `${uuidv4()}-${sanitizedFileName}`;
             cb(null, fileName);
         },
     });

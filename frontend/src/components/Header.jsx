@@ -48,13 +48,13 @@ const Header = () => {
                     <IconBellFilled />
                     <IconBookmarkFilled />
                     <motion.div className="w-10 h-10 cursor-pointer relative" whileHover={{ scale: 1.02 }} onClick={toggleDropDown}>
-                        <img src="https://i.pravatar.cc/300" alt="avatar" className="w-full h-full rounded-full" />
+                        <img src={user.avatar} alt="avatar" className="w-full h-full rounded-full" />
                     </motion.div>
                     {dropDownMenu && (
                         <div className="min-w-96 py-4 px-4 absolute top-20 right-10 bg-white rounded-md z-50" ref={dropdownRef}>
                             <div className="w-full flex gap-2 cursor-pointer items-center hover:bg-gray-100 px-4 py-4 rounded">
                                 <div className="w-10 h-10">
-                                    <img src="https://i.pravatar.cc/300" alt="avatar" className="w-full h-full rounded-full" />
+                                    <img src={user.avatar} alt="avatar" className="w-full h-full rounded-full" />
                                 </div>
                                 <div className="flex flex-col">
                                     <h1 className="text-lg font-bold text-black">{user.firstname + " " + user.lastname}</h1>
