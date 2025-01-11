@@ -184,7 +184,6 @@ export const checkAuth = async (req, res) => {
         }
 
         res.status(200).json({ success: true, user: { ...user, password: undefined } });
-        console.log(user)
     } catch (error) {
         console.error("Error in checkAuth:", error);
         res.status(500).json({ success: false, message: "Internal server error" });

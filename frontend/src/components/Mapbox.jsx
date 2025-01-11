@@ -87,7 +87,7 @@ const Mapbox = ({ ads }) => {
         iconCreateFunction={customClusterIcon}
         polygonOptions={{
           fillColor: "#ffffff",
-          color: "#f00800",
+          color: "#000000",
           weight: 5,
           opacity: 1,
           fillOpacity: 0.8,
