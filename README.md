@@ -34,7 +34,7 @@ Follow the steps below to set up and run the project:
    ```
 2. Install the dependencies:
    ```bash
-   npm install
+   npm install --legacy-peer-deps
    ```
 
 ---
@@ -54,7 +54,7 @@ Follow the steps below to set up and run the project:
    CLIENT_URL=<your-client-url>
    SUPABASE_PASSWORD=<your-supabase-password>
    NEXT_PUBLIC_SUPABASE_URL=<your-supabase-url>
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-supabase-anon-key>
+   NEXT_PUBLIC_SUPABASE_ROLE_KEY=<your-supabase-anon-key>
    ```
 
 #### Frontend
