@@ -41,19 +41,19 @@ const ItemComponent = (item) => {
 
                 {/* Specs */}
                 <div className="flex flex-row gap-2 mt-2">
-                    <div className="px-2 py-1 bg-gray-200 flex flex-row items-center rounded gap-1">
+                    <div className="px-2 py-1 bg-gray-100 flex flex-row items-center rounded gap-1">
                         <IconBedFilled className="text-gray-500" size={20} />
                         <p className="text-xs text-gray-500">
                             {item.bedroom}+{item.livingroom}
                         </p>
                     </div>
 
-                    <div className="px-2 py-1 bg-gray-200 flex flex-row items-center rounded gap-1">
+                    <div className="px-2 py-1 bg-gray-100 flex flex-row items-center rounded gap-1">
                         <IconBathFilled className="text-gray-500" size={20} />
                         <p className="text-xs text-gray-500">1</p>
                     </div>
 
-                    <div className="px-2 py-1 bg-gray-200 flex flex-row items-center rounded gap-1">
+                    <div className="px-2 py-1 bg-gray-100 flex flex-row items-center rounded gap-1">
                         <IconDimensions className="text-gray-500" size={20} />
                         <p className="text-xs text-gray-500">51m2</p>
                     </div>

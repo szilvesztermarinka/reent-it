@@ -7,7 +7,7 @@ import Mapbox from "../components/Mapbox";
 
 const HomePage = () => {
     const [post, setPost] = useState([]);
-    const [filters, setFilters] = useState({}); 
+    const [filters, setFilters] = useState({});
 
     const getPosts = useCallback(async () => {
         try {
@@ -20,30 +20,30 @@ const HomePage = () => {
     }, [filters]);
 
     const handleFiltersChange = (newFilters) => {
-        setFilters(newFilters); 
-      };
+        setFilters(newFilters);
+    };
 
     useEffect(() => {
         getPosts();
     }, [getPosts]);
 
     return (
-        <div className="overflow-hidden">
+        <div className="h-screen">
             <Header />
-            <div className="flex flex-row w-full h-screen">
-                {/* Sidebar/filters */}
-                <Sidebar onFiltersChange={handleFiltersChange} />
+            <div className="flex flex-row w-full h-full">
+                <Sidebar className="fixed top-0 left-0 h-screen" onFiltersChange={handleFiltersChange} />
 
-                {/* Posts */}
-                <div className="w-1/3 h-screen m-6 flex flex-col gap-4 overflow-y-scroll">
-                    {post.map((item) => (
-                        <ItemComponent key={item.id} {...item} />
-                    ))}
-                </div>
-
-                {/* Mapbox */}
-                <div className="w-1/3 h-full">
-                    <Mapbox ads={post} />
+                <div className="flex-1 ml-64 md:ml-0 transition-all duration-300">
+                    <div className="flex flex-row h-full">
+                        <div className="flex flex-col flex-1 overflow-y-scroll m-6 gap-4">
+                            {post.map((item) => (
+                                <ItemComponent key={item.id} {...item} />
+                            ))}
+                        </div>
+                        <div className="w-1/2 h-full">
+                            <Mapbox ads={post} />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

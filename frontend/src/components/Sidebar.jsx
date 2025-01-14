@@ -1,116 +1,70 @@
-import React, { useState, useEffect } from "react";
-import { IconHome,IconBuildingSkyscraper,IconBed,IconBuildingCommunity} from '@tabler/icons-react';
-
-
+import React, { useState } from "react";
+import { IconHome, IconBuildingSkyscraper, IconBed, IconBuildingCommunity } from "@tabler/icons-react";
 
 function Sidebar({ onFiltersChange }) {
-  const [filters, setFilters] = useState({});
+    const [filters, setFilters] = useState({});
 
-  const handleButtonClick = (name, value) => {
-    const newFilters = { ...filters };
+    const handleButtonClick = (name, value) => {
+        setFilters((prevFilters) => {
+            const updatedFilters = { ...prevFilters, [name]: prevFilters[name] === value ? undefined : value };
+            onFiltersChange(updatedFilters);
+            return updatedFilters;
+        });
+    };
 
-    // Ensure one filter is always selected
-    if (newFilters[name] !== value) {
-      newFilters[name] = value;
-    }
+    const handleInputChange = ({ target: { name, value } }) => {
+        setFilters((prevFilters) => {
+            const updatedFilters = { ...prevFilters, [name]: value || undefined };
+            onFiltersChange(updatedFilters);
+            return updatedFilters;
+        });
+    };
 
-    setFilters(newFilters);
-    onFiltersChange(newFilters);
-  };
+    const buttonClasses = (type) => `flex flex-col items-center p-2.5 gap-2.5 rounded-lg w-full text-xs font-medium ${filters.type === type ? "bg-main-lila text-white" : "bg-gray-100 text-main-lila"}`;
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    return (
+        <div className="bg-white">
+            <div className="pl-16 pr-6">
+                <div>
+                    <p className="font-bold text-base py-4">Ingatlan típus</p>
 
-    const newFilters = { ...filters };
-    if (!value) {
-      delete newFilters[name];
-    } else {
-      newFilters[name] = value;
-    }
+                    <div className="grid grid-cols-2 gap-x-2 gap-y-4 justify-items-center">
+                        {[
+                            { label: "Összes", icon: <IconBuildingCommunity />, value: "" },
+                            { label: "Lakás", icon: <IconBuildingSkyscraper />, value: "flat" },
+                            { label: "Ház", icon: <IconHome />, value: "house" },
+                            { label: "Szoba", icon: <IconBed />, value: "room" },
+                        ].map(({ label, icon, value }) => (
+                            <div className="w-full" key={value}>
+                                <button className={buttonClasses(value)} onClick={() => handleButtonClick("type", value)}>
+                                    {icon}
+                                    {label}
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
 
-    setFilters(newFilters);
-    onFiltersChange(newFilters);
-  };
+                <div>
+                    <p className="font-bold text-base py-4">Hol keresel?</p>
+                </div>
 
-  return (
-    <div className="w-1/5 bg-white">
-   
-      <div className="px-16 py-6 pr-6 ">
-        
-      
-      <p className="font-bold text-base py-4">Ingatlan típus</p>
-       
-            
-          <div className="grid grid-cols-2 gap-x-2 gap-y-4 justify-items-center ">
-            <div className="w-full">
-          <button
-            className={`flex flex-col items-center px-4 py-6 rounded-lg w-full ${filters.type === "" ? "bg-main-lila text-white" : "bg-gray-200"}`}
-            onClick={() => handleButtonClick("type", "")}
-          >
-            <IconBuildingCommunity />
-            Mind
-          </button>
-          </div>
-
-          <div className="w-full">
-          <button
-            className={`flex flex-col items-center px-4 py-6 rounded-lg w-full ${filters.type === "flat" ? "bg-main-lila text-white" : "bg-gray-200"}`}
-            onClick={() => handleButtonClick("type", "flat")}
-          >
-            <IconBuildingSkyscraper/>
-            Lakás
-          </button>
-          </div>
-          <div className="w-full">
-          <button
-            className={`flex flex-col items-center px-4 py-6 rounded-lg w-full ${filters.type === "house" ? "bg-main-lila text-white" : "bg-gray-200"}`}
-            onClick={() => handleButtonClick("type", "house")}
-          ><IconHome />
-            Ház
-          </button>
-          </div>
-          <div className="w-full">
-          <button
-            className={`flex flex-col items-center px-4 py-6 rounded-lg w-full ${filters.type === "room" ? "bg-main-lila text-white" : "bg-gray-200"}`}
-            onClick={() => handleButtonClick("type", "room")}
-          >
-              <IconBed/>
-            Szoba
-          </button>
-          </div>
-          
-
-          {/* <select name="type" onChange={handleInputChange}>
-            <option value="">Mind</option>
-            <option value="flat">Társasház</option>
-            <option value="house">Családi ház</option>
-          </select> */}
+                <div>
+                    {[
+                        { label: "Minimum ár:", name: "price_gte", type: "number" },
+                        { label: "Maximum ár:", name: "price_lte", type: "number" },
+                    ].map(({ label, name, type }) => (
+                        <div className="mb-4" key={name}>
+                            <label className="block font-medium text-sm">
+                                {label}
+                                <input type={type} name={name} onChange={handleInputChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                            </label>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
-      </div>
-      <div>
-        <label>
-          Minimum ár:
-          <input type="number" name="price_gte" onChange={handleInputChange} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Maximum ár:
-          <input type="number" name="price_lte" onChange={handleInputChange} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Keresés:
-          <input
-            type="text"
-            name="title_contains"
-            onChange={handleInputChange}
-          />
-        </label>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default Sidebar;
