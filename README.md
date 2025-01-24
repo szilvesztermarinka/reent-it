@@ -55,6 +55,7 @@ Follow the steps below to set up and run the project:
    SUPABASE_PASSWORD=<your-supabase-password>
    NEXT_PUBLIC_SUPABASE_URL=<your-supabase-url>
    NEXT_PUBLIC_SUPABASE_ROLE_KEY=<your-supabase-anon-key>
+   HERE_API=<your-here-api-key>
    ```
 
 #### Frontend
