@@ -14,7 +14,7 @@ const Mapbox = ({ ads }) => {
     const validCoords = ads.filter(
       (item) => item.coords.lat && item.coords.long
     );
-    if (validCoords.length === 0) return [47.50748265850585, 19.04492472631566]; // Alapértelmezett érték, ha nincs találat
+    if (validCoords.length === 0) return [47.50748265850585, 19.04492472631566];
 
     const latSum = validCoords.reduce((sum, item) => sum + item.coords.lat, 0);
     const longSum = validCoords.reduce(
@@ -55,71 +55,71 @@ const Mapbox = ({ ads }) => {
 
   const customClusterIcon = function (cluster) {
     return L.divIcon({
-      html: `<span>${cluster.getChildCount()}</span>`,
+      html: `<span style="background-color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; width: 33px; height: 33px;">${cluster.getChildCount()}</span>`,
       className: "custom-cluster-icon",
       iconSize: L.point(33, 33, true),
     });
   };
 
   return (
-      <MapContainer
-        center={center}
-        zoom={13}
-        scrollWheelZoom={true}
-        zoomControl={false}
-        style={{ width: "100%", height: "100%", zIndex: 1 }}
-      >
-        <TileLayer
-          url={process.env.REACT_APP_MAPBOX_URL}
-          attribution='© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> ©
+    <MapContainer
+      center={center}
+      zoom={13}
+      scrollWheelZoom={true}
+      zoomControl={false}
+      style={{ width: "100%", height: "100%", zIndex: 1 }}
+    >
+      <TileLayer
+        url={process.env.REACT_APP_MAPBOX_URL}
+        attribution='© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> ©
                       <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>
                       <strong>
                       <a href="https://labs.mapbox.com/contribute/" target="_blank">
                       Improve this map
                       </a>
                       </strong>'
-        />
-        <MarkerClusterGroup
-          showCoverageOnHover={false}
-          maxClusterRadius={60} // A csoportosítás távolsága
-          spiderfyOnMaxZoom={true} // Az egyedi markerek széthúzása zoomoláskor
-          disableClusteringAtZoom={16} // Zoom szint, ahol már nem csoportosít
-          iconCreateFunction={customClusterIcon}
-          polygonOptions={{
-            fillColor: "#ffffff",
-            color: "#000000",
-            weight: 5,
-            opacity: 1,
-            fillOpacity: 0.8,
-          }}
-        >
-          {ads.map(
-            (item) =>
-              item.coords.lat &&
-              item.coords.long && (
-                <Marker
-                  key={item.id}
-                  position={[item.coords.lat, item.coords.long]}
-                  icon={createCustomIcon(item.price, item.type)}
-                >
-                  <Popup>
-                    <div style={{ width: 50 }}>
-                      <img
-                        src={item.images[0]}
-                        alt="kép"
-                        style={{ width: "100%", borderRadius: 8 }}
-                      />
-                    </div>
-                    <div>
-                      <strong>{formatPrice(item.price)}</strong>
-                      <p>{item.description}</p>
-                    </div>
-                  </Popup>
-                </Marker>
-              )
-          )}
-        </MarkerClusterGroup>
-      </MapContainer>
+      />
+      <MarkerClusterGroup
+        showCoverageOnHover={false}
+        maxClusterRadius={60} // A csoportosítás távolsága
+        spiderfyOnMaxZoom={true} // Az egyedi markerek széthúzása zoomoláskor
+        disableClusteringAtZoom={16} // Zoom szint, ahol már nem csoportosít
+        iconCreateFunction={customClusterIcon}
+        polygonOptions={{
+          fillColor: "#ffffff",
+          color: "#000000",
+          weight: 5,
+          opacity: 1,
+          fillOpacity: 0.8,
+        }}
+      >
+        {ads.map(
+          (item) =>
+            item.coords.lat &&
+            item.coords.long && (
+              <Marker
+                key={item.id}
+                position={[item.coords.lat, item.coords.long]}
+                icon={createCustomIcon(item.price, item.type)}
+              >
+                <Popup>
+                  <div style={{ width: 50 }}>
+                    <img
+                      src={item.images[0]}
+                      alt="kép"
+                      style={{ width: "100%", borderRadius: 8 }}
+                    />
+                  </div>
+                  <div>
+                    <strong>{formatPrice(item.price)}</strong>
+                    <p>{item.description}</p>
+                  </div>
+                </Popup>
+              </Marker>
+            )
+        )}
+      </MarkerClusterGroup>
+    </MapContainer>
   );
 };
 
