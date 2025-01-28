@@ -3,8 +3,8 @@ import { IconHome, IconBuildingSkyscraper, IconBed, IconBuildingCommunity } from
 
 function Sidebar({ onFiltersChange }) {
     const [filters, setFilters] = useState({});
-    const [searchQuery, setSearchQuery] = useState("");
-    const [autocompleteResults, setAutocompleteResults] = useState([]);
+    //const [searchQuery, setSearchQuery] = useState("");
+    //const [autocompleteResults, setAutocompleteResults] = useState([]);
 
     const handleButtonClick = (name, value) => {
         setFilters((prevFilters) => {
@@ -21,7 +21,7 @@ function Sidebar({ onFiltersChange }) {
             return updatedFilters;
         });
     };
-
+/* 
     const handleSearchChange = async (event) => {
         const query = event.target.value.trim();
         setSearchQuery(query);
@@ -83,7 +83,7 @@ function Sidebar({ onFiltersChange }) {
             setAutocompleteResults([]);
         }
     };
-
+ 
     const handleSelectSuggestion = (suggestion) => {
         setSearchQuery(suggestion.title);
         setAutocompleteResults([]);
@@ -93,6 +93,7 @@ function Sidebar({ onFiltersChange }) {
             return updatedFilters;
         });
     };
+    */
 
     const buttonClasses = (type) => `flex flex-col items-center p-2.5 gap-2.5 rounded-lg w-full text-xs font-medium ${filters.type === type ? "bg-main-lila text-white" : "bg-gray-100 text-main-lila"}`;
 
@@ -121,16 +122,7 @@ function Sidebar({ onFiltersChange }) {
 
                 <div>
                     <p className="font-bold text-base py-4">Hol keresel?</p>
-                    <input type="text" name="location" value={searchQuery} onChange={handleSearchChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Keresés városra vagy címre" />
-                    {autocompleteResults.length > 0 && (
-                        <ul className="mt-2 bg-white border rounded-md shadow-lg max-h-40 overflow-y-auto">
-                            {autocompleteResults.map((result) => (
-                                <li key={result.id} onClick={() => handleSelectSuggestion(result)} className="p-2 cursor-pointer hover:bg-gray-200">
-                                    {result.title} - {result.type}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
+                    {/* <input type="text" name="location" value={searchQuery} onChange={handleSearchChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Keresés városra vagy címre" /> */}
                 </div>
 
                 <div>
