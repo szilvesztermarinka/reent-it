@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { IconHome, IconBuildingSkyscraper, IconBed, IconBuildingCommunity, IconMapPin, IconChevronDown } from "@tabler/icons-react";
-import MultiRangeSlider from "./multirangeslider";
+import MultiRangeSlider from "./rangeslider/multirangeslider";
 
 function Sidebar({ onFiltersChange }) {
     const [filters, setFilters] = useState({});
-    //const [searchQuery, setSearchQuery] = useState("");
-    //const [autocompleteResults, setAutocompleteResults] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [autocompleteResults, setAutocompleteResults] = useState([]);
 
     const handleButtonClick = (name, value) => {
         setFilters((prevFilters) => {
@@ -22,7 +22,7 @@ function Sidebar({ onFiltersChange }) {
             return updatedFilters;
         });
     };
-    /* 
+    
         const handleSearchChange = async (event) => {
             const query = event.target.value.trim();
             setSearchQuery(query);
@@ -94,7 +94,7 @@ function Sidebar({ onFiltersChange }) {
                 return updatedFilters;
             });
         };
-        */
+        
 
     const buttonClasses = (type) => `flex flex-col items-center p-2.5 gap-2.5 rounded w-full text-xs font-medium ${filters.type === type ? "bg-main-lila text-white" : "bg-gray-100 text-main-lila"}`;
 
@@ -127,7 +127,7 @@ function Sidebar({ onFiltersChange }) {
                     <p className="font-bold text-base py-4">Hol keresel?</p>
                     <div className="flex flex-row items-center justify-between bg-gray-100 rounded px-3 py-2.5 gap-2.5 text-base">
                         <IconMapPin size={24} />
-                        <input type="text" placeholder="Keresés" className="bg-transparent outline-none w-full focus:text-black" />
+                        <input type="text" placeholder="Keresés" value={searchQuery} onChange={handleSearchChange} className="bg-transparent outline-none w-full focus:text-black" />
                         <IconChevronDown size={24} />
                     </div>
                     {/* <input type="text" name="location" value={searchQuery} onChange={handleSearchChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Keresés városra vagy címre" /> */}
