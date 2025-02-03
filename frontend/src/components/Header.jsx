@@ -1,9 +1,11 @@
-import { IconBellFilled, IconBookmarkFilled, IconLogout, IconNotes, IconSettings, IconUser } from "@tabler/icons-react";
+import { IconBellFilled, IconBookmarkFilled, IconLogout, IconNotes, IconSettings, IconUpload, IconUser } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router"
+
 
 const Header = () => {
     const { user, logout } = useAuth();
@@ -11,15 +13,15 @@ const Header = () => {
     const dropdownRef = useRef(null);
 
     const handleClickOutside = (event) => {
-/*         console.log(event.target); 
-
-        if (
-            dropdownRef.current &&
-            !dropdownRef.current.contains(event.target) &&
-            !event.target.closest(".leaflet-container") // Ne reagáljon a térképre kattintásra
-        ) {
-            setDropDownMenu(false);
-        } */
+        /*         console.log(event.target); 
+        
+                if (
+                    dropdownRef.current &&
+                    !dropdownRef.current.contains(event.target) &&
+                    !event.target.closest(".leaflet-container") // Ne reagáljon a térképre kattintásra
+                ) {
+                    setDropDownMenu(false);
+                } */
     };
 
     const toggleDropDown = () => {
@@ -45,6 +47,9 @@ const Header = () => {
                     <h1 className="text-3xl font-bold text-black text-center">Reent</h1>
                 </div>
                 <div className="flex gap-4 items-center">
+                    <Link to="/upload">
+                        <IconUpload />
+                    </Link>
                     <IconBellFilled />
                     <IconBookmarkFilled />
                     <motion.div className="w-10 h-10 cursor-pointer relative" whileHover={{ scale: 1.02 }} onClick={toggleDropDown}>

@@ -7,6 +7,7 @@ import { Toaster, toast } from "react-hot-toast";
 import { useEffect } from "react";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
 import Notfound from "./pages/404";
+import UploadPage from "./pages/UploadPage";
 
 function App() {
     const { isAuthenticated, isCheckingAuth, error, message, user } = useAuth();
@@ -28,9 +29,11 @@ function App() {
 
             <Routes>
                 <Route path="/" element={isAuthenticated ? <HomePage /> : <Navigate to="/login" replace />} />
+                <Route path="/upload" element={isAuthenticated ? <UploadPage /> : <Navigate to="/login" replace />} />
                 <Route path="/login" element={!isAuthenticated ? <LoginPage /> : <Navigate to="/" replace />} />
                 <Route path="/signup" element={!isAuthenticated ? <SignUpPage /> : <Navigate to="/" replace />} />
                 <Route path="/verify-email" element={!isAuthenticated ? <LoginPage /> : user?.isVerified ? <Navigate to="/" replace /> : <EmailVerificationPage />} />
+
 
                 {/* 404 Page */}
                 <Route path="*" element={<Notfound />} />
