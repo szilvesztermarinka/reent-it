@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { IconCheck } from '@tabler/icons-react';
+import { Link } from 'react-router';
 
 // Fix ikon problémákhoz
 delete L.Icon.Default.prototype._getIconUrl;
@@ -77,51 +79,78 @@ const UploadPage = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
+    <div className="w-full">
 
-      <div className="mb-8">
-        <div className="flex justify-between">
-          {[1, 2, 3, 4].map((num) => (
-            <button
-              key={num}
-              onClick={() => goToStep(num)}
-              className={`w-8 h-8 rounded-full flex items-center justify-center 
-                transition-colors focus:outline-none cursor-pointer
-                ${step >= num ? 'bg-blue-500 text-white' : 'bg-gray-200'}
-                ${step === num ? 'ring-2 ring-blue-300' : ''}`}
-            >
-              {num}
-            </button>
+      <div className="w-full flex flex-row items-center justify-between bg-white px-12 py-4">
+
+        <div>
+          <Link to="/">
+            <span className=' font-semibold text-gray-500 hover:text-gray-600'>Mégsem</span>
+          </Link>
+        </div>
+
+        {/* Step indicators */}
+        <div className="flex items-center justify-center">
+          {[
+            { step: 1, title: 'Adatok' },
+            { step: 2, title: 'Fájlok' },
+            { step: 3, title: 'Helyszín' },
+            { step: 4, title: 'Előnézet' }
+          ].map(({ step: num, title }, index, arr) => (
+            <div key={num} className="flex items-center">
+              {/* Step gomb */}
+              <button
+                onClick={() => goToStep(num)}
+                className="flex flex-row items-center gap-3 focus:outline-none"
+              >
+                <div className={`w-8 h-8 rounded flex items-center justify-center transition-colors ${step >= num ? 'bg-black text-white' : 'border-2 border-gray-500 border-solid text-gray-500'}`}>
+                  {step > num ? <IconCheck size={20} /> : num}
+                </div>
+                <span className={`text-sm font-semibold ${step === num ? 'text-black' : 'text-gray-500'}`}>
+                  {title}
+                </span>
+              </button>
+
+              {/* Vízszintes vonal a lépések között (kivéve utolsó után) */}
+              {index !== arr.length - 1 && (
+                <div className="flex-1 flex justify-center mr-3 ml-3">
+                  <div className="w-4 h-0.5 bg-gray-300"></div>
+                </div>
+              )}
+            </div>
           ))}
+        </div>
+
+        {/* Step content */}
+        <div className='flex gap-2'>
+          <button
+            onClick={prevStep}
+            disabled={step > 1 ? false : true}
+            className='border-2 border-gray-500 text-gray-500 px-2.5 py-2 text-sm font-semibold rounded-md enabled:hover:border-black enabled:hover:text-black focus:outline-none'
+          >
+            Vissza
+          </button>
+          {step < 4 ? (
+            <button
+              onClick={nextStep}
+              className="bg-blue-500 text-white text-sm font-semibold px-2.5 py-2 rounded-md enabled:hover:bg-blue-600 focus:outline-none"
+            >
+              Következő
+            </button>
+          ) : (
+            <button
+              onClick={() => console.log('Submit:', formData)}
+              className="bg-green-500 text-white text-sm font-semibold px-2.5 py-2 rounded-md enabled:hover:bg-green-600 focus:outline-none"
+            >
+              Közzététel
+            </button>
+          )}
         </div>
       </div>
 
-      {renderStep()}
 
-      <div className="mt-8 flex justify-between">
-        {step > 1 && (
-          <button
-            onClick={prevStep}
-            className="bg-gray-500 text-white px-4 py-2 rounded"
-          >
-            Előző
-          </button>
-        )}
-        {step < 4 ? (
-          <button
-            onClick={nextStep}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Következő
-          </button>
-        ) : (
-          <button
-            onClick={() => console.log('Submit:', formData)}
-            className="bg-green-500 text-white px-4 py-2 rounded"
-          >
-            Közzététel
-          </button>
-        )}
+      <div className='max-w-4xl mx-auto p-4'>
+        {renderStep()}
       </div>
     </div>
   );
