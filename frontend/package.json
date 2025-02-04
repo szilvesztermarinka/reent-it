@@ -9,6 +9,7 @@
         "dotenv": "^16.4.7",
         "framer-motion": "^11.13.1",
         "javascript-time-ago": "^2.5.11",
+        "jimp": "^1.6.0",
         "leaflet": "^1.9.4",
         "multi-range-slider-react": "^2.0.7",
         "react": "^19.0.0",
