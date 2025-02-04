@@ -296,7 +296,7 @@ const ImageUploadStep = ({
             Húzd ide a képeket vagy kattints ide a feltöltéshez
           </p>
           <p className="text-sm text-gray-500 mt-2">
-            Tölts fel maximum 10 képet (JPEG, PNG)
+            Tölts fel tetszőleges számú képet (JPEG, PNG)
           </p>
         </label>
       </div>
@@ -323,9 +323,6 @@ const ImageUploadStep = ({
                 style={{ width: `${img.progress}%` }}
               />
             </div>
-
-            {/* Sötét overlay */}
-            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 transition-opacity" />
           </div>
         ))}
       </div>
