@@ -6,7 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const multerStorage = (fieldName) => {
+export const multerStorage = (fieldName, multiple = false) => {
+    console.log("bent vagyok a multerStorageban");
     const storage = multer.diskStorage({
         destination: (req, file, cb) => {
             cb(null, path.join(__dirname, "../uploads"));
@@ -21,6 +22,8 @@ export const multerStorage = (fieldName) => {
         },
     });
 
-    const upload = multer({ storage: storage });
-    return upload.single(fieldName);
+    const upload = multer({ storage });
+
+    // Egyedi vagy tömeges feltöltés kezelése
+    return multiple ? upload.array(fieldName) : upload.single(fieldName);
 };

@@ -44,7 +44,7 @@ const Header = () => {
         <div className="bg-white w-full py-4 px-16 border-b z-50">
             <div className="flex justify-between items-center">
                 <div>
-                    <h1 className="text-3xl font-bold text-black text-center">Reent</h1>
+                    <Link to="/"><h1 className="text-3xl font-bold text-black text-center">Reent</h1></Link>
                 </div>
                 <div className="flex gap-4 items-center">
                     <Link to="/upload">

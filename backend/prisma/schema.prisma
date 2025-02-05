@@ -8,43 +8,55 @@ generator client {
 }
 
 model User {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  email String @unique
-  password String
-  firstname String
-  lastname String
-  avatar String?
-  lastlogin DateTime @default(now())
-  isVerified Boolean @default(false)
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  email      String   @unique
+  password   String
+  firstname  String
+  lastname   String
+  avatar     String?
+  lastlogin  DateTime @default(now())
+  isVerified Boolean  @default(false)
 
-  resetPasswordToken String?
-  resetPasswordExpiresAt DateTime?
-  verificationToken String?
+  resetPasswordToken         String?
+  resetPasswordExpiresAt     DateTime?
+  verificationToken          String?
   verificationTokenExpiresAt DateTime?
 
-  posts Post[]
-  savedPosts SavedPost[] 
+  posts      Listing[]
+  savedPosts SavedPost[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Post {
+model Listing {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  property Property
-  type Type
-  price Int
-  description String
+
+  propertyType Property
+  listtype     ListType
+
+  price   Int
   deposit Int
-  bedroom Int
-  livingroom Int
+
+  description String
+  bedroom     Int
+  livingroom  Int
+  balcony     Int?
+
   images String[]
-  balcony Int?
-  owner User @relation(fields: [ownerId], references: [id])
+
+  city    String
+  country String
+  county  String
+
+  yard     Yard
+  landArea Int?
+  built    Int?
+
+  owner   User   @relation(fields: [ownerId], references: [id])
   ownerId String @db.ObjectId
 
   coords Json
-
 
   isSaved SavedPost[]
 
@@ -55,20 +67,25 @@ model Post {
 model SavedPost {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  user User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
   userId String @db.ObjectId
 
-  post Post @relation(fields: [postId], references: [id])
-  postId String @db.ObjectId
+  post   Listing @relation(fields: [listId], references: [id])
+  listId String  @db.ObjectId
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+enum Yard {
+  Terrace
+  Garden
+  SharedYard
+}
 
-enum Type {
-  rent
-  buy
+enum ListType {
+  Rent
+  Sale
 }
 
 enum Property {

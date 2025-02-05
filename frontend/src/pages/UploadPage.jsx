@@ -35,32 +35,12 @@ const UploadPage = () => {
     const newImages = files.map((file) => ({
       url: URL.createObjectURL(file),
       name: file.name,
-      progress: 0,
     }));
 
     setFormData((prev) => ({
       ...prev,
       images: [...prev.images, ...newImages].slice(0, 10), // Max 10 kép
     }));
-
-    // Szimulált feltöltési folyamat
-    newImages.forEach((img) => {
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += Math.floor(Math.random() * 20) + 10;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(interval);
-        }
-
-        setFormData((prev) => ({
-          ...prev,
-          images: prev.images.map((image) =>
-            image.name === img.name ? { ...image, progress } : image
-          ),
-        }));
-      }, 300);
-    });
   };
 
   const goToStep = (stepNumber) => {
@@ -315,14 +295,6 @@ const ImageUploadStep = ({
               alt={img.name}
               className="w-full h-32 object-cover"
             />
-
-            {/* Progress bar */}
-            <div className="absolute bottom-0 left-0 right-0 h-2 bg-gray-200">
-              <div
-                className="h-full bg-blue-500 transition-all duration-300"
-                style={{ width: `${img.progress}%` }}
-              />
-            </div>
           </div>
         ))}
       </div>
