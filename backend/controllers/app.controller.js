@@ -3,6 +3,7 @@ import { prisma } from "../config/prismaclient.js";
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import addWatermark from "../utils/watermark.js";
+import path from "path";
 
 const OPERATORS = {
     lte: "lte",
@@ -218,10 +219,15 @@ export const createListing = async (req, res) => {
 
                 // Egyedi fájlnév generálása
                 const uniqueName = uuidv4();
-                const watermarkedPath = `uploads/${uniqueName}_watermarked.jpg`;
+
 
                 // Vízjel hozzáadása
+                const imagesDir = path.join(process.cwd(), "/images");
+                const watermarkedPath = path.join(imagesDir, `${uniqueName}_watermarked.jpg`);
+
                 await addWatermark(file.path, watermarkedPath, "reentit.com");
+
+                
 
                 // Supabase feltöltés
                 const uploadPath = `listing_images/${req.userId}/${uniqueName}.jpg`;

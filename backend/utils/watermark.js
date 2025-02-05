@@ -1,9 +1,9 @@
-import { Jimp } from "jimp";
+
 
 async function addWatermark(imagePath, outputPath, watermarkText) {
-  console.log("bent vagyok a watermarkban");
     try {
         const image = await Jimp.read(imagePath);
+        await image.writeAsync(outputPath).then(() => console.log("Watermark added successfully"));
         const font = await Jimp.loadFont(Jimp.FONT_SANS_64_WHITE);
 
         const imageWidth = image.bitmap.width;
@@ -24,8 +24,6 @@ async function addWatermark(imagePath, outputPath, watermarkText) {
 
         image.composite(watermarkLayer, 0, 0);
 
-        await image.writeAsync(outputPath);
-        console.log("Watermark added successfully!");
     } catch (error) {
         console.error("Error processing image:", error);
     }
