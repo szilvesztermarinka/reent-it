@@ -4,6 +4,7 @@ import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import addWatermark from "../utils/watermark.js";
 import path from "path";
+import { fileURLToPath } from "url";
 
 const OPERATORS = {
     lte: "lte",
@@ -199,16 +200,8 @@ export const createListing = async (req, res) => {
             });
         }
 
-        // Képek feldolgozása
         const allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg"];
         const imageUrls = [];
-
-        if (!req.files || req.files.length === 0) {
-            return res.status(400).json({
-                success: false,
-                message: "Legalább egy kép feltöltése szükséges",
-            });
-        }
 
         // Képek vízjelezése és feltöltése párhuzamosan
         await Promise.all(
@@ -217,30 +210,43 @@ export const createListing = async (req, res) => {
                     throw new Error("Csak JPEG, PNG vagy JPG formátumú képek engedélyezettek");
                 }
 
-                // Egyedi fájlnév generálása
-                const uniqueName = uuidv4();
+                const __filename = fileURLToPath(import.meta.url);
+                const __dirname = path.dirname(__filename);
 
+                // Egyedi fájlnév generálása és útvonal beállítása
+                const uniqueName = uuidv4();
+                const watermarkedPath = path.resolve(__dirname, "../images", `${uniqueName}_watermarked.jpg`);
+                console.log("Watermark will be saved at:", watermarkedPath);
+
+                // Ellenőrizzük, hogy az `images` mappa létezik-e
+                if (!fs.existsSync(path.dirname(watermarkedPath))) {
+                    console.log("Images directory does not exist. Creating it...");
+                    fs.mkdirSync(path.dirname(watermarkedPath), { recursive: true });
+                }
 
                 // Vízjel hozzáadása
-                const imagesDir = path.join(process.cwd(), "/images");
-                const watermarkedPath = path.join(imagesDir, `${uniqueName}_watermarked.jpg`);
+                await addWatermark(file.path, watermarkedPath, "reentit.com")
+                    .then(() => {
+                        console.log("Watermark added successfully.");
+                    })
+                    .catch((error) => {
+                        console.error("error: ", error.message);
+                    });
 
-                await addWatermark(file.path, watermarkedPath, "reentit.com");
-
-                
+                // Ellenőrzés a feltöltés előtt
+                if (!fs.existsSync(watermarkedPath)) {
+                    throw new Error(`Watermarked file not found at: ${watermarkedPath}`);
+                }
 
                 // Supabase feltöltés
                 const uploadPath = `listing_images/${req.userId}/${uniqueName}.jpg`;
-
                 const { error } = await supabase.storage.from("listing_images").upload(uploadPath, fs.readFileSync(watermarkedPath), {
                     contentType: file.mimetype,
                 });
-
                 if (error) throw error;
 
                 // Publikus URL lekérése
                 const publicUrl = supabase.storage.from("listing_images").getPublicUrl(uploadPath).data.publicUrl;
-
                 imageUrls.push(publicUrl);
 
                 // Ideiglenes fájlok törlése
@@ -286,5 +292,6 @@ export const createListing = async (req, res) => {
             success: false,
             message: error.message,
         });
+        console.error(error);
     }
 };
