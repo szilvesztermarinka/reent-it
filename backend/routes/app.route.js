@@ -1,10 +1,12 @@
 import express from "express";
-import { createListing, getAllAd, savePost, unsavePost, updateAvatar } from "../controllers/app.controller.js";
+import { createListing, getAddById, getAllAd, savePost, unsavePost, updateAvatar } from "../controllers/app.controller.js";
 import { multerStorage } from "../utils/multerStorage.js";
 
 const router = express.Router();
 
 router.get("/all-ad", getAllAd);
+router.get("/getAddById/:id", getAddById);
+
 
 router.post("/upload-listing", multerStorage("images", true), createListing);
 

@@ -17,7 +17,7 @@ const ItemComponent = (item) => {
         navigate(`/post/${item.id}`);
     };
     return (
-        <div className="flex bg-white p-2 shadow rounded-xl hover:shadow-md transition duration-200 cursor-pointer" onClick={handleClick}>
+        <div className="flex bg-white p-2 border-gray-200 border-solid border rounded-xl hover:shadow transition duration-200 cursor-pointer" onClick={handleClick}>
             <div className="mr-4">
                 <img src={item.images[0]} alt="Kép" className="w-36 h-36 rounded-l" />
             </div>
@@ -61,7 +61,7 @@ const ItemComponent = (item) => {
 
                 {/* Uploaded & Save */}
                 <div className="flex flex-row justify-between mt-auto">
-                    <p className="text-xs text-gray-500">{<ReactTimeAgo date={Date.parse(item.createdAt)} locale="hu-HU" />}</p>
+                    <p className="text-xs text-gray-500">{<ReactTimeAgo date={Date.parse(item.createdAt)}  />}</p>
                     <IconBookmark size={20} className="cursor-pointer" />
                 </div>
             </div>
