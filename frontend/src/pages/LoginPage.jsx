@@ -5,8 +5,10 @@ import { Link } from "react-router-dom";
 import kep from "../assets/izelito.png";
 import { useAuth } from "../context/AuthContext";
 import { IconLoader2 } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 
 const LoginPage = () => {
+    const { t } = useTranslation();  // Fordítási hook
     const { login, loading } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -26,30 +28,29 @@ const LoginPage = () => {
             {/* Form */}
             <div className="lg:p-24 bg-white md:p-52 sm:20 p-8 w-full lg:w-1/2 xl:w-3/4 h-screen flex flex-col justify-center items-center -10">
                 <div className="max-w-md">
-                    <h2 className="text-4xl font-bold mb-3 text-black">Sign in to your Reent account</h2>
+                    <h2 className="text-4xl font-bold mb-3 text-black">{t("sign_in")}</h2> {/* Fordítás */}
                     <p className="text-base text-gray-500 mb-4">
-                        Don't have an account yet?{" "}
+                        {t("dont_have_account")}{" "}
                         <Link to={"/signup"} className="underline hover:text-gray-400">
-                            Sign up
+                            {t("sign_up")} {/* Fordítás */}
                         </Link>
                     </p>
 
                     <form onSubmit={handleLogin}>
-                        <Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} label="Email Address" />
-
-                        <Input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} label="Password" />
+                        <Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} label={t("email_address")} /> {/* Fordítás */}
+                        <Input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} label={t("password")} /> {/* Fordítás */}
 
                         <div className="flex justify-between text-center">
                             <div className="flex items-center">
                                 <input type="checkbox" id="rememberMe" className="w-4 h-4 bg-primary rounded" />
                                 <label htmlFor="rememberMe" className="ml-2 text-sm text-black">
-                                    Remember for 30 days
+                                    {t("remember_me")} {/* Fordítás */}
                                 </label>
                             </div>
 
                             <div className="flex items-center">
                                 <Link to={"/forgot-password"} className="text-sm text-black hover:underline">
-                                    Forgot password?
+                                    {t("forgot_password")} {/* Fordítás */}
                                 </Link>
                             </div>
                         </div>
@@ -65,7 +66,7 @@ const LoginPage = () => {
                                     <IconLoader2 stroke={2} />
                                 </motion.div>
                             ) : (
-                                "Login"
+                                t("login")  // Fordítás
                             )}
                         </motion.button>
                     </form>

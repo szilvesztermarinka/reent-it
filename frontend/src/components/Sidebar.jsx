@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { IconHome, IconBuildingSkyscraper, IconBed, IconBuildingCommunity, IconMapPin, IconChevronDown } from "@tabler/icons-react";
 import MultiRangeSlider from "./rangeslider/multirangeslider";
+import { useTranslation } from "react-i18next"; // useTranslation importálása
 
 function Sidebar({ onFiltersChange }) {
+    const { t } = useTranslation(); // useTranslation hook
     const [filters, setFilters] = useState({});
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -20,6 +22,7 @@ function Sidebar({ onFiltersChange }) {
             listingType: checked ? name : "",
         }));
     };
+
     useEffect(() => {
         onFiltersChange(filters);
     }, [filters, onFiltersChange]);
@@ -32,13 +35,13 @@ function Sidebar({ onFiltersChange }) {
         <div className="bg-white">
             <div className="flex flex-col gap-6 pl-16 pr-6 max-w-80 mt-4">
                 <div>
-                    <p className="font-bold text-base py-4">Ingatlan típus</p>
+                    <p className="font-bold text-base py-4">{t('property_type')}</p> {/* Nyelvi kulcs */}
                     <div className="grid grid-cols-2 gap-x-2 gap-y-2 justify-items-center">
                         {[
-                            { label: "Összes", icon: <IconBuildingCommunity />, value: "" },
-                            { label: "Lakás", icon: <IconBuildingSkyscraper />, value: "flat" },
-                            { label: "Ház", icon: <IconHome />, value: "house" },
-                            { label: "Szoba", icon: <IconBed />, value: "room" },
+                            { label: t("all"), icon: <IconBuildingCommunity />, value: "" },
+                            { label: t("flat"), icon: <IconBuildingSkyscraper />, value: "flat" },
+                            { label: t("house"), icon: <IconHome />, value: "house" },
+                            { label: t("room"), icon: <IconBed />, value: "room" },
                         ].map(({ label, icon, value }) => (
                             <div className="w-full" key={value}>
                                 <button
@@ -54,20 +57,20 @@ function Sidebar({ onFiltersChange }) {
                 </div>
 
                 <div>
-                    <p className="font-bold text-base py-4">Hol keresel?</p>
+                    <p className="font-bold text-base py-4">{t('search_location')}</p> {/* Nyelvi kulcs */}
                     <div className="flex flex-row items-center justify-between bg-gray-100 rounded px-3 py-2.5 gap-2.5 text-base">
                         <IconMapPin size={24} />
-                        <input type="text" placeholder="Keresés" value={searchQuery} className="bg-transparent outline-none w-full focus:text-black" />
+                        <input type="text" placeholder={t('search_placeholder')} value={searchQuery} className="bg-transparent outline-none w-full focus:text-black" />
                         <IconChevronDown size={24} />
                     </div>
                 </div>
 
                 <div>
-                    <p className="font-bold text-base py-4">Hirdetés típus</p>
+                    <p className="font-bold text-base py-4">{t('listing_type')}</p> {/* Nyelvi kulcs */}
                     <div className="flex flex-col gap-2">
                         {[
-                            { label: "Kiadó", value: "kiado" },
-                            { label: "Eladó", value: "elado" },
+                            { label: t("rent"), value: "kiado" },
+                            { label: t("sale"), value: "elado" }
                         ].map(({ label, value }) => (
                             <label key={value} className="flex items-center gap-2 text-sm">
                                 <input
@@ -84,7 +87,7 @@ function Sidebar({ onFiltersChange }) {
                 </div>
 
                 <div>
-                    <p className="font-bold text-base py-4">Ár intervallum</p>
+                    <p className="font-bold text-base py-4">{t('price_range')}</p> {/* Nyelvi kulcs */}
                     <MultiRangeSlider
                         min={500}
                         max={6000}

@@ -1,9 +1,12 @@
 import ReactTimeAgo from "react-time-ago";
 import { IconBathFilled, IconBedFilled, IconBookmark, IconDimensions, IconTrendingDown } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next"; // useTranslation importálása
 
 const ItemComponent = (item) => {
+    console.log(item)
     const navigate = useNavigate();
+    const { t } = useTranslation(); // useTranslation hook
 
     const formatPrice = (price) => {
         if (price >= 1000000) {
@@ -16,6 +19,7 @@ const ItemComponent = (item) => {
     const handleClick = () => {
         navigate(`/post/${item.id}`);
     };
+
     return (
         <div className="flex bg-white p-2 border-gray-200 border-solid border rounded-xl hover:shadow transition duration-200 cursor-pointer" onClick={handleClick}>
             <div className="mr-4">
@@ -32,11 +36,11 @@ const ItemComponent = (item) => {
                             </h1>
                             <IconTrendingDown stroke={2} size={20} className="text-green-500" />
                         </div>
-                        {item.type === "rent" && <div className="px-2 py-1 bg-amber-100 text-xs font-bold text-amber-500 rounded-full flex items-center">Kiadó</div>}
-                        {item.type === "buy" && <div className="px-2 py-1 bg-green-100 text-xs font-bold text-green-500 rounded-full flex items-center">Eladó</div>}
-                        {item.type === "room" && <div className="px-2 py-1 bg-blue-100 text-xs font-bold text-blue-500 rounded-full flex items-center">Eladó</div>}
+                        {item.type === "rent" && <div className="px-2 py-1 bg-amber-100 text-xs font-bold text-amber-500 rounded-full flex items-center">{t('rent')}</div>}
+                        {item.type === "buy" && <div className="px-2 py-1 bg-green-100 text-xs font-bold text-green-500 rounded-full flex items-center">{t('sale')}</div>}
+                        {item.type === "room" && <div className="px-2 py-1 bg-blue-100 text-xs font-bold text-blue-500 rounded-full flex items-center">{t('sale')}</div>}
                     </div>
-                    <p className="text-xs text-gray-500">Debrecen, Egyetem sugárút</p>
+                    <p className="text-xs text-gray-500">Debrecen, Egyetem sugárút</p> {/* A helyszín lokalizálása */}
                 </div>
 
                 {/* Specs */}
@@ -44,24 +48,24 @@ const ItemComponent = (item) => {
                     <div className="px-2 py-1 bg-gray-100 flex flex-row items-center rounded gap-1">
                         <IconBedFilled className="text-gray-500" size={20} />
                         <p className="text-xs text-gray-500">
-                            {item.bedroom}+{item.livingroom}
+                            {item.bedroom + item.livingroom}
                         </p>
                     </div>
 
                     <div className="px-2 py-1 bg-gray-100 flex flex-row items-center rounded gap-1">
                         <IconBathFilled className="text-gray-500" size={20} />
-                        <p className="text-xs text-gray-500">1</p>
+                        <p className="text-xs text-gray-500">{item.bathroom}</p> {/* A fürdőszoba szöveg dinamikus */}
                     </div>
 
                     <div className="px-2 py-1 bg-gray-100 flex flex-row items-center rounded gap-1">
                         <IconDimensions className="text-gray-500" size={20} />
-                        <p className="text-xs text-gray-500">51m2</p>
+                        <p className="text-xs text-gray-500">{item.size}</p> {/* Méret */}
                     </div>
                 </div>
 
                 {/* Uploaded & Save */}
                 <div className="flex flex-row justify-between mt-auto">
-                    <p className="text-xs text-gray-500">{<ReactTimeAgo date={Date.parse(item.createdAt)}  />}</p>
+                    <p className="text-xs text-gray-500">{<ReactTimeAgo date={Date.parse(item.createdAt)} />}</p>
                     <IconBookmark size={20} className="cursor-pointer" />
                 </div>
             </div>
