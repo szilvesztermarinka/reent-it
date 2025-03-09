@@ -16,5 +16,10 @@
   "all": "Összes",
   "flat": "Lakás",
   "house": "Ház",
-  "room": "Szoba"
+  "room": "Szoba",
+  "2fa_verification": "Kétlépcsős azonosítás",
+  "2fa_email_sent": "A biztonsági kódot elküldtük az email címedre:",
+  "verification_code": "Biztonsági kód",
+  "verify": "Ellenőrzés",
+  "back_to_login": "Vissza a bejelentkezéshez"
 }

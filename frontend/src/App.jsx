@@ -30,10 +30,10 @@ function App() {
 
             <Routes>
                 {/* Auth */}
-                <Route path="/" element={isAuthenticated ? <HomePage /> : <Navigate to="/login" replace />} />
+                <Route path="/" element={isAuthenticated && user ? <HomePage /> : <Navigate to="/login" replace />} />
                 <Route path="/login" element={!isAuthenticated ? <LoginPage /> : <Navigate to="/" replace />} />
+                <Route path="/verify-email" element={isAuthenticated && !user?.isVerified ? <EmailVerificationPage /> : <Navigate to="/" replace />} />
                 <Route path="/signup" element={!isAuthenticated ? <SignUpPage /> : <Navigate to="/" replace />} />
-                <Route path="/verify-email" element={!isAuthenticated ? <LoginPage /> : user?.isVerified ? <Navigate to="/" replace /> : <EmailVerificationPage />} />
 
                 {/* Application */}
                 <Route path="/upload" element={isAuthenticated ? <UploadPage /> : <Navigate to="/login" replace />} />

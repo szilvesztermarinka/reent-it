@@ -14,109 +14,131 @@ export const AuthProvider = ({ children }) => {
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [pending2FA, setPending2FA] = useState({
+        isRequired: false,
+        email: null,
+    });
 
-    // checkAuth - hitelesítés ellenőrzése
     const checkAuth = async () => {
         setIsCheckingAuth(true);
-        setError(null); // Nullázzuk a hibát
-        setMessage(null); // Nullázzuk az üzenetet
+        setError(null);
         try {
             const response = await authAPI.get(`/check-auth`);
             setUser(response.data.user);
             setIsAuthenticated(true);
-            setError(null); // Töröljük a hibát sikeres válasz esetén
             setMessage(response.data.message);
         } catch (error) {
-            setUser(null);
-            setIsAuthenticated(false);
-            setError("Error checking authentication"); // Hiba, ha nem sikerült ellenőrizni a hitelesítést
+            resetAuthState();
         } finally {
             setIsCheckingAuth(false);
         }
     };
 
-    // login - bejelentkezés
+    const resetAuthState = () => {
+        setUser(null);
+        setIsAuthenticated(false);
+        setPending2FA({ isRequired: false, email: null });
+        setError(null);
+        setMessage(null);
+    };
+
     const login = async (email, password) => {
         setLoading(true);
-        setError(null); // Nullázzuk a hibát
-        setMessage(null); // Nullázzuk az üzenetet
+        setError(null);
         try {
-            const response = await authAPI
-            .post('/login', { email, password });
-            setUser(response.data.user);
-            setIsAuthenticated(true);
+            const response = await authAPI.post("/login", { email, password });
+            setPending2FA({
+                isRequired: true,
+                email: email,
+            });
+
+            console.log("asd: ", response.data.message);
+
+            setIsAuthenticated(false);
             setMessage(response.data.message);
-            setError(null); // Töröljük a hibát sikeres bejelentkezésnél
-            setLoading(false);
+            return response.data;
         } catch (error) {
-            // Ha hiba van, ellenőrizzük a válasz részleteit
-            if (error.response) {
-                setError(error.response.data.message || "Error logging in"); // Az API hibaüzenete
-            } else {
-                setError("Error logging in"); // Általános hiba
-            }
+            handleAuthError(error, "Error logging in");
+            throw error;
+        } finally {
             setLoading(false);
         }
     };
 
-    // logout - kijelentkezés
-    const logout = async () => {
-        setError(null); // Nullázzuk a hibát
-        setMessage(null); // Nullázzuk az üzenetet
+    const verify2FA = async (code) => {
+        setLoading(true);
+        setError(null);
         try {
-            const response = await authAPI.post(`/logout`);
-            setUser(null);
-            setIsAuthenticated(false);
-            setMessage(response.data.message);
-            setError(null); // Töröljük a hibát sikeres kijelentkezésnél
+            const response = await authAPI.post("/verify2fa", {
+                email: pending2FA.email,
+                code,
+            });
+
+            setUser(response.data.user);
+            setIsAuthenticated(true);
+            setPending2FA({ isRequired: false, email: null });
+            return response.data;
         } catch (error) {
-            // Ha hiba van, ellenőrizzük a válasz részleteit
-            if (error.response) {
-                setError(error.response.data.message || "Error logging out"); // Az API hibaüzenete
-            } else {
-                setError("Error logging out"); // Általános hiba
-            }
+            handleAuthError(error, "Error verifying 2FA code");
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const logout = async () => {
+        setError(null);
+        try {
+            await authAPI.post("/logout");
+            resetAuthState();
+        } catch (error) {
+            handleAuthError(error, "Error logging out");
         }
     };
 
     const signup = async (email, password, firstname, lastname) => {
         setLoading(true);
-        setError(null);
-        setMessage(null);
-        setUser(null);
         try {
-            const response = await authAPI.post(`/signup`, { email, password, firstname, lastname });
-            console.log(response);
+            const response = await authAPI.post("/signup", {
+                email,
+                password,
+                firstname,
+                lastname,
+            });
             setUser(response.data.user);
             setIsAuthenticated(true);
-            setMessage(response.data.message);
-            setError(null);
-            setLoading(false);
+            return response.data;
         } catch (error) {
+            handleAuthError(error, "Error signing up");
+            throw error;
+        } finally {
             setLoading(false);
-            setError(error.response.data.message || "Error signing up");
         }
     };
 
     const verifyEmail = async (code) => {
         setLoading(true);
-        setError(null);
         try {
-            const response = await authAPI.post(`/verify-email`, { code });
+            const response = await authAPI.post("/verify-email", { code });
             setUser(response.data.user);
             setIsAuthenticated(true);
-            setLoading(false);
-            setError(null);
             return response.data;
         } catch (error) {
-            setError(error.response.data.message || "Error verifying email");
-            setLoading(false);
+            handleAuthError(error, "Error verifying email");
             throw error;
+        } finally {
+            setLoading(false);
         }
     };
 
+    const handleAuthError = (error, defaultMessage) => {
+        const errorMessage = error.response?.data?.message || defaultMessage;
+        setError(errorMessage);
+        setMessage(null);
+    };
+
     useEffect(() => {
-        checkAuth(); // Ellenőrizzük a felhasználó hitelesítését, amikor az alkalmazás betöltődik
+        checkAuth();
     }, []);
 
     return (
@@ -125,14 +147,16 @@ export const AuthProvider = ({ children }) => {
                 user,
                 isAuthenticated,
                 isCheckingAuth,
+                pending2FA,
                 error,
                 message,
                 loading,
                 login,
                 logout,
+                verify2FA,
                 checkAuth,
                 signup,
-                verifyEmail
+                verifyEmail,
             }}
         >
             {children}

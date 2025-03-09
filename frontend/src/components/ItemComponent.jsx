@@ -36,9 +36,9 @@ const ItemComponent = (item) => {
                             </h1>
                             <IconTrendingDown stroke={2} size={20} className="text-green-500" />
                         </div>
-                        {item.type === "rent" && <div className="px-2 py-1 bg-amber-100 text-xs font-bold text-amber-500 rounded-full flex items-center">{t('rent')}</div>}
-                        {item.type === "buy" && <div className="px-2 py-1 bg-green-100 text-xs font-bold text-green-500 rounded-full flex items-center">{t('sale')}</div>}
-                        {item.type === "room" && <div className="px-2 py-1 bg-blue-100 text-xs font-bold text-blue-500 rounded-full flex items-center">{t('sale')}</div>}
+                        {item.type === "rent" && <div className="px-2 py-1 bg-amber-100 text-xs font-bold text-amber-500 rounded-full flex items-center">{t("rent")}</div>}
+                        {item.type === "buy" && <div className="px-2 py-1 bg-green-100 text-xs font-bold text-green-500 rounded-full flex items-center">{t("sale")}</div>}
+                        {item.type === "room" && <div className="px-2 py-1 bg-blue-100 text-xs font-bold text-blue-500 rounded-full flex items-center">{t("room")}</div>}
                     </div>
                     <p className="text-xs text-gray-500">Debrecen, Egyetem sugárút</p> {/* A helyszín lokalizálása */}
                 </div>

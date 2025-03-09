@@ -17,6 +17,10 @@ model User {
   lastlogin  DateTime @default(now())
   isVerified Boolean  @default(false)
 
+
+  login2FAToken String?
+  login2FAExpiresAt DateTime?
+
   resetPasswordToken         String?
   resetPasswordExpiresAt     DateTime?
   verificationToken          String?

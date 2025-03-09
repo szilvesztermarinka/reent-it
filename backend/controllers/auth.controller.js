@@ -4,7 +4,7 @@ import crypto from "crypto";
 import { prisma } from "../config/prismaclient.js";
 
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
-import { sendPasswordResetEmail, sendResetSuccessEmail, sendVerificationEmail, sendWelcomeEmail } from "../mail/emails.js";
+import { send2FACodeEmail, sendPasswordResetEmail, sendResetSuccessEmail, sendVerificationEmail, sendWelcomeEmail } from "../mail/emails.js";
 
 export const signup = async (req, res) => {
     const { email, password, firstname, lastname } = req.body;
@@ -33,7 +33,6 @@ export const signup = async (req, res) => {
         });
 
         generateTokenAndSetCookie(res, user.id);
-        console.log(user.id)
 
         await sendVerificationEmail(user.email, verificationToken);
 
@@ -96,11 +95,50 @@ export const login = async (req, res) => {
             return res.status(400).json({ success: false, message: "Invalid password" });
         }
 
+        const login2FAToken = Math.floor(100000 + Math.random() * 900000).toString(); // 6 digit random number
+        const login2FAExpiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+
+        await prisma.user.update({
+            where: { id: user.id },
+            data: { login2FAToken, login2FAExpiresAt },
+        });
+
+        await send2FACodeEmail(user.email, login2FAToken)
+        
+
+        res.status(200).json({
+            success: true,
+            message: "2FA code sent to your email",
+            requires2FA: true,
+        });
+    } catch (error) {
+        res.status(400).json({ success: false, message: error.message });
+    }
+};
+
+export const verify2FA = async (req, res) => {
+    const { email, code } = req.body;
+
+    console.log(email, code)
+
+    try {
+        const user = await prisma.user.findFirst({
+            where: {
+                email,
+                login2FAToken: code,
+                login2FAExpiresAt: { gt: new Date() },
+            },
+        });
+
+        if (!user) {
+            return res.status(400).json({ success: false, message: "Invalid or expired 2FA code" });
+        }
+
         generateTokenAndSetCookie(res, user.id);
 
         await prisma.user.update({
             where: { id: user.id },
-            data: { lastlogin: new Date() },
+            data: { login2FAToken: null, login2FAExpiresAt: null, lastlogin: new Date() },
         });
 
         res.status(200).json({ success: true, message: "Logged in successfully", user: { ...user, password: undefined } });
