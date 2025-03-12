@@ -50,7 +50,8 @@ const LoginPage = () => {
             </div>
 
             {/* Form */}
-            <div className="lg:p-24 bg-white md:p-52 sm:20 p-8 w-full lg:w-1/2 xl:w-3/4 h-screen flex flex-col justify-center items-center -10">
+            <div className="lg:p-24 bg-white md:p-52 sm:20 p-8 w-full lg:w-1/2 xl:w-3/4 h-screen flex relative flex-col justify-center items-center -10">
+                <img src="/logo.png" alt="logo" className="absolute top-8 left-8 w-16 aspect-square"/>
                 <div className="max-w-md w-full">
                     {!show2FA ? (
                         <>

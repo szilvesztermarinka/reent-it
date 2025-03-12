@@ -249,7 +249,7 @@ export const createListing = async (req, res) => {
         message: `Hiányzó mezők: ${missingFields.join(", ")}`,
       });
     }
-
+    console.log("asd")
     // Értékek parse-olása
     const priceNum = parseInt(price);
     const depositNum = parseInt(deposit);

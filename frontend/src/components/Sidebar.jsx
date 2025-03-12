@@ -28,7 +28,7 @@ function Sidebar({ onFiltersChange }) {
     }, [filters, onFiltersChange]);
 
     const buttonClasses = (type) =>
-        `flex flex-col items-center p-2.5 gap-2.5 rounded w-full text-xs font-medium ${filters.type === type ? "bg-main-lila text-white" : "bg-gray-100 text-main-lila"
+        `flex flex-col items-center p-2.5 gap-2.5 rounded w-full text-xs font-medium ${filters.type === type ? "bg-main-green text-white" : "bg-gray-100 text-main-green"
         }`;
 
     return (
@@ -78,7 +78,7 @@ function Sidebar({ onFiltersChange }) {
                                     name={value}
                                     checked={filters.listingType === value}
                                     onChange={handleCheckboxChange}
-                                    className="rounded text-main-lila focus:ring-main-lila"
+                                    className="rounded text-main-green focus:ring-main-green"
                                 />
                                 {label}
                             </label>
