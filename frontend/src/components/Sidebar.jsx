@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next"; // useTranslation importálása
 
 function Sidebar({ onFiltersChange }) {
     const { t } = useTranslation(); // useTranslation hook
-    const [filters, setFilters] = useState({});
+    const [filters, setFilters] = useState({ propertyType: ""});
     const [searchQuery, setSearchQuery] = useState("");
 
     const handleButtonClick = (name, value) => {
@@ -28,25 +28,25 @@ function Sidebar({ onFiltersChange }) {
     }, [filters, onFiltersChange]);
 
     const buttonClasses = (type) =>
-        `flex flex-col items-center p-2.5 gap-2.5 rounded w-full text-xs font-medium ${filters.type === type ? "bg-main-green text-white" : "bg-gray-100 text-main-green"
+        `flex flex-col items-center p-2.5 gap-2.5 rounded w-full text-xs font-medium ${filters.propertyType === type ? "bg-main-green text-white" : "bg-gray-100 text-main-green"
         }`;
 
     return (
         <div className="bg-white">
             <div className="flex flex-col gap-6 pl-16 pr-6 max-w-80 mt-4">
                 <div>
-                    <p className="font-bold text-base py-4">{t('property_type')}</p> {/* Nyelvi kulcs */}
+                    <p className="font-bold text-base py-4">{t('property_type')}</p>
                     <div className="grid grid-cols-2 gap-x-2 gap-y-2 justify-items-center">
                         {[
                             { label: t("all"), icon: <IconBuildingCommunity />, value: "" },
-                            { label: t("flat"), icon: <IconBuildingSkyscraper />, value: "flat" },
-                            { label: t("house"), icon: <IconHome />, value: "house" },
-                            { label: t("room"), icon: <IconBed />, value: "room" },
+                            { label: t("flat"), icon: <IconBuildingSkyscraper />, value: "Apartment" },
+                            { label: t("house"), icon: <IconHome />, value: "House" },
+                            { label: t("room"), icon: <IconBed />, value: "Room" },
                         ].map(({ label, icon, value }) => (
                             <div className="w-full" key={value}>
                                 <button
                                     className={buttonClasses(value)}
-                                    onClick={() => handleButtonClick("type", value)}
+                                    onClick={() => handleButtonClick("propertyType", value)}
                                 >
                                     {icon}
                                     {label}

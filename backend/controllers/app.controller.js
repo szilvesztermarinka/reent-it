@@ -227,6 +227,8 @@ export const createListing = async (req, res) => {
       coords,
     } = req.body;
 
+    console.log(req.body)
+
     // Kötelező mezők ellenőrzése
     const requiredFields = [
       "propertyType",
