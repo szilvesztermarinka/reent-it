@@ -227,8 +227,6 @@ export const createListing = async (req, res) => {
       coords,
     } = req.body;
 
-    console.log(req.body)
-
     // Kötelező mezők ellenőrzése
     const requiredFields = [
       "propertyType",
@@ -246,12 +244,12 @@ export const createListing = async (req, res) => {
     ];
     const missingFields = requiredFields.filter((field) => !req.body[field]);
     if (missingFields.length > 0) {
+      console.log("Missing fields:", missingFields);
       return res.status(400).json({
         success: false,
         message: `Hiányzó mezők: ${missingFields.join(", ")}`,
       });
     }
-    console.log("asd")
     // Értékek parse-olása
     const priceNum = parseInt(price);
     const depositNum = parseInt(deposit);
@@ -268,6 +266,7 @@ export const createListing = async (req, res) => {
       isNaN(bedroomNum) ||
       isNaN(livingroomNum)
     ) {
+      console.log("Invalid number format");
       return res.status(400).json({
         success: false,
         message: "Érvénytelen számformátum",
@@ -290,6 +289,7 @@ export const createListing = async (req, res) => {
 
     // Képek ellenőrzése
     if (!req.files || req.files.length === 0) {
+      console.log("At least one image is required");
       return res.status(400).json({
         success: false,
         message: "Legalább egy kép feltöltése szükséges",

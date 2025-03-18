@@ -41,7 +41,7 @@ const Mapbox = ({ ads }) => {
       buy: "background-color: #D1FAE5; color: #10B981;",
     };
 
-    const backgroundColor = type === "rent" ? styles.rent : styles.buy;
+    const backgroundColor = type === "Rent" ? styles.rent : styles.buy;
 
     return L.divIcon({
       className: "custom-icon",
@@ -100,7 +100,7 @@ const Mapbox = ({ ads }) => {
               <Marker
                 key={item.id}
                 position={[item.coords.lat, item.coords.long]}
-                icon={createCustomIcon(item.price, item.type)}
+                icon={createCustomIcon(item.price, item.listtype)}
               >
                 <Popup>
                   <div style={{ width: 50 }}>

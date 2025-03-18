@@ -38,6 +38,9 @@ const HomePage = () => {
         <div className="flex-1 ml-64 md:ml-0 transition-all duration-300 flex min-h-0">
           <div className="flex flex-1">
             <div className="flex flex-col flex-1 overflow-y-auto m-6 gap-4">
+              <h2 className="text-lg font-bold text-gray-800">
+                {post.length} találat
+              </h2>
               {post.map((item) => (
                 <ItemComponent key={item.id} {...item} />
               ))}

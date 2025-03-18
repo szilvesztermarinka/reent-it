@@ -21,24 +21,25 @@ const ItemComponent = (item) => {
     };
 
     return (
-        <div className="flex bg-white p-2 border-gray-200 border-solid border rounded-xl hover:shadow transition duration-200 cursor-pointer" onClick={handleClick}>
-            <div className="mr-4">
-                <img src={item.images[0]} alt="Kép" className="w-36 h-36 rounded-l" />
+        <div className="flex bg-white border-gray-200 border-solid border rounded-xl hover:shadow transition duration-200 cursor-pointer" onClick={handleClick}>
+            <div className="mr-2 relative">
+                <img src={item.images[0]} alt="Kép" className="w-36 h-36 rounded-l object-fill" />
+                <div className="absolute bg-black/50 top-0 right-0 z-10 text-white px-4 py-2 rounded-es">{item.images.length}</div>
             </div>
-            <div className="flex-1 flex-col justify-between flex">
+            <div className="flex-1 flex-col p-2 justify-between flex">
                 {/* Price & Address & Type */}
                 <div>
                     <div className="flex justify-between flex-row">
                         <div className="flex items-end gap-1">
                             <h1 className="text-lg font-bold">
                                 {formatPrice(item.price)}
-                                {item.type === "rent" && <span className="font-normal">/hó</span>}
+                                {item.listtype === "Rent" && <span className="font-normal">/hó</span>}
                             </h1>
                             <IconTrendingDown stroke={2} size={20} className="text-green-500" />
                         </div>
-                        {item.type === "rent" && <div className="px-2 py-1 bg-amber-100 text-xs font-bold text-amber-500 rounded-full flex items-center">{t("rent")}</div>}
-                        {item.type === "buy" && <div className="px-2 py-1 bg-green-100 text-xs font-bold text-green-500 rounded-full flex items-center">{t("sale")}</div>}
-                        {item.type === "room" && <div className="px-2 py-1 bg-blue-100 text-xs font-bold text-blue-500 rounded-full flex items-center">{t("room")}</div>}
+                        {item.listtype === "Rent" && <div className="px-2 py-1 bg-amber-100 text-xs font-bold text-amber-500 rounded-full flex items-center">{t("rent")}</div>}
+                        {item.listtype === "Buy" && <div className="px-2 py-1 bg-green-100 text-xs font-bold text-green-500 rounded-full flex items-center">{t("sale")}</div>}
+                        {item.listtype === "Room" && <div className="px-2 py-1 bg-blue-100 text-xs font-bold text-blue-500 rounded-full flex items-center">{t("room")}</div>}
                     </div>
                     <p className="text-xs text-gray-500">Debrecen, Egyetem sugárút</p> {/* A helyszín lokalizálása */}
                 </div>
