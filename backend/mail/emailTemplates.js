@@ -65,6 +65,78 @@ export const PASSWORD_RESET_SUCCESS_TEMPLATE = `
 </html>
 `;
 
+export const OTP_CODE_TEMPLATE = (code, name) => `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Code</title>
+</head>
+<body style="font-family: Inter, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="center" style="padding: 40px 0;">
+                <table width="600px" border="0" cellspacing="0" cellpadding="0" style="background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);">
+                    <tr>
+                        <td align="center">
+                            <img src="http://192.168.10.94:3000/logo.png" alt="Logo" style="margin-bottom: 20px; width: 150px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 20px; font-weight: bold;;">Hi ${name},</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 20px 0; font-size: 14px; color: #333;">
+                            Here is your One Time Password (OTP).<br>
+                            Please enter this code to verify your email address for Reent it.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding: 20px 0;">
+                            <table border="0" cellspacing="10" cellpadding="0" style="margin: auto;">
+                                <tr>
+                                    ${code.split('').map(num => `
+                                        <td style="background: #f0e9ff; padding: 15px; font-size: 24px; font-weight: bold; border-radius: 5px;">${num}</td>
+                                    `).join('')}
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 14px; padding: 10px 0;">
+                            OTP will expire in <strong>10 minutes.</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 14px; color: #48BB78; padding: 20px 0;">
+                            Best Regards,<br>
+                            <strong>Reent it team.</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-size: 10px; color: #777; padding: 20px 0;">
+                            © 2025 Reent it. All rights reserved.<br>
+                            You are receiving this mail because you registered to join the Reent it platform. If you no longer want to receive emails, click the unsubscribe link below.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding-bottom: 20px;">
+                            <a href="#" style="font-size: 10px; color: #333; text-decoration: underline;">Privacy policy</a> &bull;
+                            <a href="#" style="font-size: 10px; color: #333; text-decoration: underline;">Terms of service</a> &bull;
+                            <a href="#" style="font-size: 10px; color: #333; text-decoration: underline;">Help center</a> &bull;
+                            <a href="#" style="font-size: 10px; color: #333; text-decoration: underline;">Unsubscribe</a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+`;
+
+
 export const PASSWORD_RESET_REQUEST_TEMPLATE = `
 <!DOCTYPE html>
 <html lang="en">

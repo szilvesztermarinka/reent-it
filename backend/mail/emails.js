@@ -1,7 +1,7 @@
-import { PASSWORD_RESET_REQUEST_TEMPLATE, PASSWORD_RESET_SUCCESS_TEMPLATE, VERIFICATION_EMAIL_TEMPLATE } from "./emailTemplates.js";
+import { OTP_CODE_TEMPLATE, PASSWORD_RESET_REQUEST_TEMPLATE, PASSWORD_RESET_SUCCESS_TEMPLATE, VERIFICATION_EMAIL_TEMPLATE } from "./emailTemplates.js";
 import { mailTrapClient, sender } from "./mailtrap.config.js";
 
-export const send2FACodeEmail = async (email, code) => {
+export const send2FACodeEmail = async (email, code, name) => {
     const recipient = [{ email }];
 
     try {
@@ -9,7 +9,7 @@ export const send2FACodeEmail = async (email, code) => {
             from: sender,
             to: recipient,
             subject: "2FA code",
-            html: `<h1>2FA code: ${code}</h1>`,
+            html: OTP_CODE_TEMPLATE(code, name),
             category: "2FA code",
         });
 
