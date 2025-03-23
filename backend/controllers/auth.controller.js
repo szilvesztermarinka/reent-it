@@ -103,7 +103,7 @@ export const login = async (req, res) => {
             data: { login2FAToken, login2FAExpiresAt },
         });
 
-        await send2FACodeEmail(user.email, login2FAToken)
+        await send2FACodeEmail(user.email, login2FAToken, user.firstname)
         
 
         res.status(200).json({
