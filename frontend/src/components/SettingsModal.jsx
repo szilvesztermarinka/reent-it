@@ -31,30 +31,24 @@ const SettingsModal = ({ onClose }) => {
                 {/* Content */}
                 <div className="w-3/4 p-6 overflow-y-auto">
                     {selectedTab === "Profile" && (
-                        <div className="flex flex-col gap-2">
-                            <div className="flex flex-col gap-2">
-                                    <label className="block text-gray-500">Profile Picture</label>
-                                    <img src={user.avatar} alt="Profile" className="w-16 h-16 rounded-full border mr-4" />
+                        <div className="flex flex-col">
+                            <div className="flex flex-col gap-2 mb-4">
+                                <label className="block text-gray-500">Profile Picture</label>
+                                <div className="flex flex-row items-center gap-4">
+                                    <img src={user.avatar} alt="Profile" className="w-24 h-24 rounded-full border mr-4" />
                                     <div>
-                                        <button className="bg-blue-500 text-white px-3 py-1 rounded mr-2">Change Picture</button>
-                                        <button className="bg-red-500 text-white px-3 py-1 rounded">Delete Picture</button>
+                                        <button className="bg-blue-500 text-white text-sm px-3 py-1 rounded mr-2">Change Picture</button>
+                                        <button className="bg-red-500 text-white text-sm px-3 py-1 rounded">Delete Picture</button>
                                     </div>
+                                </div>
                             </div>
                             <div className="mb-4">
-                                <label className="block text-gray-500">Profile Name</label>
+                                <label className="block text-gray-500 mb-2">Profile Name</label>
                                 <input className="w-full border p-2 rounded" type="text" defaultValue={`${user.firstname} ${user.lastname}`} />
                             </div>
                             <div className="mb-4">
-                                <label className="block text-gray-500">Username</label>
-                                <input className="w-full border p-2 rounded bg-gray-100" type="text" value="@kevinuhuy" readOnly />
-                            </div>
-                            <div className="mb-4">
-                                <label className="block text-gray-500">Status</label>
-                                <input className="w-full border p-2 rounded" type="text" defaultValue="On duty" />
-                            </div>
-                            <div className="mb-4">
-                                <label className="block text-gray-500">About Me</label>
-                                <textarea className="w-full border p-2 rounded" defaultValue="Discuss only on work hour, unless you wanna discuss about music 🎵"></textarea>
+                                <label className="block text-gray-500 mb-2">About Me</label>
+                                <textarea className="w-full border p-2 rounded" placeholder="Mesélj magadról..."></textarea>
                             </div>
                             <button className="bg-blue-500 text-white py-2 px-4 rounded">Save Changes</button>
                         </div>
