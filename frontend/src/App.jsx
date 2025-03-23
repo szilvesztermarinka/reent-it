@@ -5,10 +5,12 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import { Toaster, toast } from "react-hot-toast";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
 import Notfound from "./pages/404";
 import UploadPage from "./pages/UploadPage";
 import PostPage from "./pages/PostPage";
+import { IconLoader2 } from "@tabler/icons-react";
 
 function App() {
     const { isAuthenticated, isCheckingAuth, error, message, user } = useAuth();
@@ -22,7 +24,14 @@ function App() {
         }
     }, [error, message]);
 
-    if (isCheckingAuth) return <div>Loading...</div>;
+    if (isCheckingAuth)
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>
+                    <IconLoader2 stroke={2} color="black" />
+                </motion.div>
+            </div>
+        );
 
     return (
         <div className="h-screen bg-gray-100">

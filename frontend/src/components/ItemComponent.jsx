@@ -25,14 +25,16 @@ const ImageModal = ({ images, currentIndex, onClose, onNavigate }) => (
             </div>
 
             <img src={images[currentIndex]} alt="Nagy kép" className="h-[70vh] object-contain rounded-lg" />
-            <div className="flex gap-4 mt-2">
-                <button className="text-white bg-gray-800 p-2 rounded-full" onClick={() => onNavigate(-1)}>
-                    <IconChevronLeft size={24} />
-                </button>
-                <button className="text-white bg-gray-800 p-2 rounded-full" onClick={() => onNavigate(1)}>
-                    <IconChevronRight size={24} />
-                </button>
-            </div>
+            {images.length > 1 && (
+                <div className="flex gap-4 mt-2">
+                    <button className="text-white bg-gray-800 p-2 rounded-full" onClick={() => onNavigate(-1)}>
+                        <IconChevronLeft size={24} />
+                    </button>
+                    <button className="text-white bg-gray-800 p-2 rounded-full" onClick={() => onNavigate(1)}>
+                        <IconChevronRight size={24} />
+                    </button>
+                </div>
+            )}
         </div>
     </div>
 );
@@ -63,7 +65,7 @@ const ItemComponent = (item) => {
         <div className="flex bg-white border border-gray-200 rounded-xl hover:shadow transition cursor-pointer" onClick={() => window.open(`/post/${item.id}`, "_blank")}>
             <div className="mr-2 relative">
                 <img src={item.images[0]} alt="Kép" className="w-36 h-36 rounded-l object-fill cursor-pointer" onClick={(e) => openImageModal(0, e)} />
-                <div className="absolute bg-black/50 top-0 right-0 z-10 text-white px-4 py-2 rounded-es">{item.images.length}</div>
+                {item.images.length !== 1 && <div className="absolute bg-black/50 top-0 right-0 z-10 text-white px-4 py-2 rounded-es">{item.images.length}</div>}
             </div>
             <div className="flex-1 flex flex-col p-2 justify-between">
                 <div>
@@ -97,7 +99,16 @@ const ItemComponent = (item) => {
                     <IconBookmark size={20} className="cursor-pointer" />
                 </div>
             </div>
-            {isImageModalOpen && <ImageModal images={item.images} currentIndex={currentImageIndex} onClose={() => setIsImageModalOpen(false)} onNavigate={(direction) => setCurrentImageIndex((prev) => (prev + direction + item.images.length) % item.images.length)} />}
+            {isImageModalOpen && (
+                <ImageModal
+                    images={item.images}
+                    currentIndex={currentImageIndex}
+                    onClose={() => setIsImageModalOpen(false)}
+                    onNavigate={() => {
+                        window.open(`/post/${item.id}`, "_blank");
+                    }}
+                />
+            )}
         </div>
     );
 };
