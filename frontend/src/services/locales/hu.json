@@ -17,7 +17,7 @@
   "flat": "Lakás",
   "house": "Ház",
   "room": "Szoba",
-  "2fa_verification": "Kétlépcsős azonosítás",
+  "2fa_verification": "Szia, {{name}}",
   "2fa_email_sent": "A biztonsági kódot elküldtük az email címedre:",
   "verification_code": "Biztonsági kód",
   "verify": "Ellenőrzés",

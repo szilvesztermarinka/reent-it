@@ -17,7 +17,7 @@
   "flat": "Flat",
   "house": "House",
   "room": "room",
-  "2fa_verification": "Two-Factor Authentication",
+  "2fa_verification": "Hi, {{name}}",
   "2fa_email_sent": "The security code has been sent to your email:",
   "verification_code": "Verification code",
   "verify": "Verify",

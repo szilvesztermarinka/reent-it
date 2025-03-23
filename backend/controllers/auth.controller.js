@@ -109,6 +109,7 @@ export const login = async (req, res) => {
         res.status(200).json({
             success: true,
             message: "2FA code sent to your email",
+            name: user.firstname,
             requires2FA: true,
         });
     } catch (error) {

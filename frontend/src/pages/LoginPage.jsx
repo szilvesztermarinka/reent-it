@@ -15,6 +15,7 @@ const LoginPage = () => {
     const [code, setCode] = useState("");
     const [show2FA, setShow2FA] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [name, setName] = useState("");
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -24,6 +25,7 @@ const LoginPage = () => {
             if (response?.requires2FA) {
                 setShow2FA(true);
             }
+            setName(response?.name);
             console.log(response)
         } catch (error) {
             console.error("Login error:", error);
@@ -112,7 +114,7 @@ const LoginPage = () => {
                         </>
                     ) : (
                         <>
-                            <h2 className="text-4xl font-bold mb-3 text-black">{t("2fa_verification")}</h2>
+                            <h2 className="text-4xl font-bold mb-3 text-black">{t("2fa_verification", {name: name})}</h2>
                             <p className="text-base text-gray-500 mb-4">
                                 {t("2fa_email_sent")} <span className="font-semibold">{email}</span>
                             </p>
