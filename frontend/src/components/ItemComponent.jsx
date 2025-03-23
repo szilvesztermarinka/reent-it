@@ -17,7 +17,7 @@ const ItemComponent = (item) => {
     };
 
     const handleClick = () => {
-        navigate(`/post/${item.id}`);
+        navigate(`/post/${item.id}`, "_blank");
     };
 
     return (

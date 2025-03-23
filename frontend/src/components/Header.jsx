@@ -1,46 +1,26 @@
 import { IconBellFilled, IconBookmarkFilled, IconLogout, IconNotes, IconSettings, IconUpload, IconUser } from "@tabler/icons-react";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
 import { useRef } from "react";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Link } from "react-router"
+import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 
 const Header = () => {
     const { i18n } = useTranslation();
     const { user, logout } = useAuth();
     const [dropDownMenu, setDropDownMenu] = useState(false);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const dropdownRef = useRef(null);
-
 
     const handleLanguageChange = (lng) => {
         i18n.changeLanguage(lng);
         localStorage.setItem("language", lng); // Nyelv mentése localStorage-ba
-      };
-
-    const handleClickOutside = (event) => {
-        /*         console.log(event.target); 
-        
-                if (
-                    dropdownRef.current &&
-                    !dropdownRef.current.contains(event.target) &&
-                    !event.target.closest(".leaflet-container") // Ne reagáljon a térképre kattintásra
-                ) {
-                    setDropDownMenu(false);
-                } */
     };
 
     const toggleDropDown = () => {
         setDropDownMenu((prev) => !prev);
     };
-
-    useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
 
     const handleLogout = async (e) => {
         e.preventDefault();
@@ -51,7 +31,9 @@ const Header = () => {
         <div className="bg-white w-full py-4 px-16 border-b z-50">
             <div className="flex justify-between items-center">
                 <div>
-                    <Link to="/"><img src="/logo.png" alt="logo" className="w-10 aspect-square"/></Link>
+                    <Link to="/">
+                        <img src="/logo.png" alt="logo" className="w-10 aspect-square" />
+                    </Link>
                 </div>
                 <div className="flex gap-4 items-center">
                     <Link to="/upload">
@@ -81,7 +63,7 @@ const Header = () => {
                                 <p className="text-black">View Profile</p>
                             </div>
 
-                            <div className="w-full flex cursor-pointer items-center hover:bg-gray-100 px-4 py-2 rounded">
+                            <div className="w-full flex cursor-pointer items-center hover:bg-gray-100 px-4 py-2 rounded" onClick={() => setIsSettingsOpen(true)}>
                                 <div className="w-10 h-10 items-center justify-center flex">
                                     <IconSettings stroke={2} className="text-gray-500" />
                                 </div>
@@ -109,6 +91,18 @@ const Header = () => {
                     )}
                 </div>
             </div>
+            {/* Settings Modal */}
+            {isSettingsOpen && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
+                        <h2 className="text-xl font-bold mb-4">Settings</h2>
+                        <p>Here you can manage your account settings.</p>
+                        <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded" onClick={() => setIsSettingsOpen(false)}>
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
