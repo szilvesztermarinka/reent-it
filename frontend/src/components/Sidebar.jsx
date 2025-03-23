@@ -26,7 +26,7 @@ function Sidebar({ onFiltersChange }) {
         onFiltersChange(filters);
     }, [filters, onFiltersChange]);
 
-    const buttonClasses = (type) => `flex flex-col items-center p-2.5 gap-2.5 rounded w-full text-xs font-medium ${filters.propertyType === type ? "bg-main-green text-white" : "bg-gray-100 text-main-green"}`;
+    const buttonClasses = (type) => `flex flex-col items-center p-2.5 gap-2.5 rounded w-full text-xs font-medium ${filters.propertyType === type ? "bg-main-green-400 text-white" : "bg-gray-100 text-main-green-400"}`;
 
     return (
         <div className="bg-white">
@@ -67,7 +67,7 @@ function Sidebar({ onFiltersChange }) {
                             { label: t("sale"), value: "elado" },
                         ].map(({ label, value }) => (
                             <label key={value} className="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name={value} checked={filters.listingType === value} onChange={handleCheckboxChange} className="rounded text-main-green focus:ring-main-green" />
+                                <input type="checkbox" name={value} checked={filters.listingType === value} onChange={handleCheckboxChange} className="rounded text-main-green-400 focus:ring-main-green-400" />
                                 {label}
                             </label>
                         ))}

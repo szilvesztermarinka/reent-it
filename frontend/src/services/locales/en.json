@@ -21,5 +21,6 @@
   "2fa_email_sent": "The security code has been sent to your email:",
   "verification_code": "Verification code",
   "verify": "Verify",
-  "back_to_login": "Back to login"
+  "back_to_login": "Back to login",
+  "monthly": "month"
 }
