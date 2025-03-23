@@ -4,20 +4,13 @@ import { useRef } from "react";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router";
-import { useTranslation } from "react-i18next";
 import SettingsModal from "./SettingsModal";
 
 const Header = () => {
-    const { i18n } = useTranslation();
     const { user, logout } = useAuth();
     const [dropDownMenu, setDropDownMenu] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const dropdownRef = useRef(null);
-
-    const handleLanguageChange = (lng) => {
-        i18n.changeLanguage(lng);
-        localStorage.setItem("language", lng); // Nyelv mentése localStorage-ba
-    };
 
     const toggleDropDown = () => {
         setDropDownMenu((prev) => !prev);
@@ -84,18 +77,12 @@ const Header = () => {
                                 </div>
                                 <p className="text-black">Sign Out</p>
                             </div>
-                            <div className="language-switcher">
-                                <button onClick={() => handleLanguageChange("en")}>English</button>
-                                <button onClick={() => handleLanguageChange("hu")}>Magyar</button>
-                            </div>
                         </div>
                     )}
                 </div>
             </div>
             {/* Settings Modal */}
-            {isSettingsOpen && (
-                <SettingsModal onClose={() => setIsSettingsOpen(false)}/>
-            )}
+            {isSettingsOpen && <SettingsModal onClose={() => setIsSettingsOpen(false)} />}
         </div>
     );
 };

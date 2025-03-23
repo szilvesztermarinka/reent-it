@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { IconBell, IconDeviceLaptop, IconFaceId, IconSettings } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 
 const SettingsModal = ({ onClose }) => {
     const [selectedTab, setSelectedTab] = useState("Profile");
     const { user } = useAuth();
+    const { i18n } = useTranslation();
+
+    const handleLanguageChange = (lng) => {
+        i18n.changeLanguage(lng);
+        localStorage.setItem("language", lng);
+    };
 
     const tabs = [
         { name: "Profile", icon: <IconFaceId size={20} className="mr-2 text-gray-500" /> },
@@ -51,6 +58,15 @@ const SettingsModal = ({ onClose }) => {
                                 <textarea className="w-full border p-2 rounded" placeholder="Mesélj magadról..."></textarea>
                             </div>
                             <button className="bg-blue-500 text-white py-2 px-4 rounded">Save Changes</button>
+                        </div>
+                    )}
+                    {selectedTab === "Appearance" && (
+                        <div>
+                            <label className="block text-gray-500 mb-2">Language</label>
+                            <select className="w-full border p-2 rounded" value={localStorage.getItem("language")} onChange={(e) => handleLanguageChange(e.target.value)}>
+                                <option value="en">English</option>
+                                <option value="hu">Magyar</option>
+                            </select>
                         </div>
                     )}
                 </div>
