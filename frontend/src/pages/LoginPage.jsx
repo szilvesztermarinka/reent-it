@@ -26,7 +26,7 @@ const LoginPage = () => {
                 setShow2FA(true);
             }
             setName(response?.name);
-            console.log(response)
+            console.log(response);
         } catch (error) {
             console.error("Login error:", error);
         }
@@ -44,7 +44,13 @@ const LoginPage = () => {
         setIsSubmitting(false);
     };
 
-    return (
+    return loading ? (
+        <div className="flex justify-center items-center h-screen">
+            <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>
+                <IconLoader2 stroke={2} color="black" />
+            </motion.div>
+        </div>
+    ) : (
         <div className="flex justify-center items-center h-screen">
             {/* Image */}
             <div className="lg:w-1/2 h-screen hidden lg:block relative overflow-hidden">
@@ -53,7 +59,7 @@ const LoginPage = () => {
 
             {/* Form */}
             <div className="lg:p-24 bg-white md:p-52 sm:20 p-8 w-full lg:w-1/2 xl:w-3/4 h-screen flex relative flex-col justify-center items-center -10">
-                <img src="/logo.png" alt="logo" className="absolute top-8 left-8 w-16 aspect-square"/>
+                <img src="/logo.png" alt="logo" className="absolute top-8 left-8 w-16 aspect-square" />
                 <div className="max-w-md w-full">
                     {!show2FA ? (
                         <>
@@ -66,20 +72,8 @@ const LoginPage = () => {
                             </p>
 
                             <form onSubmit={handleLogin}>
-                                <Input
-                                    type="email"
-                                    required
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    label={t("email_address")}
-                                />
-                                <Input
-                                    type="password"
-                                    required
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    label={t("password")}
-                                />
+                                <Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} label={t("email_address")} />
+                                <Input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} label={t("password")} />
 
                                 <div className="flex justify-between text-center">
                                     <div className="flex items-center">
@@ -100,8 +94,7 @@ const LoginPage = () => {
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     type="submit"
-                                    disabled={isSubmitting}
-                                >
+                                    disabled={isSubmitting}>
                                     {isSubmitting ? (
                                         <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>
                                             <IconLoader2 stroke={2} />
@@ -114,28 +107,20 @@ const LoginPage = () => {
                         </>
                     ) : (
                         <>
-                            <h2 className="text-4xl font-bold mb-3 text-black">{t("2fa_verification", {name: name})}</h2>
+                            <h2 className="text-4xl font-bold mb-3 text-black">{t("2fa_verification", { name: name })}</h2>
                             <p className="text-base text-gray-500 mb-4">
                                 {t("2fa_email_sent")} <span className="font-semibold">{email}</span>
                             </p>
 
                             <form onSubmit={handle2FASubmit}>
-                                <Input
-                                    type="text"
-                                    required
-                                    value={code}
-                                    onChange={(e) => setCode(e.target.value)}
-                                    label={t("verification_code")}
-                                    placeholder="123456"
-                                />
+                                <Input type="text" required value={code} onChange={(e) => setCode(e.target.value)} label={t("verification_code")} placeholder="123456" />
 
                                 <motion.button
                                     className="mt-5 w-full py-3 px-4 bg-blue-500 text-white font-bold rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200 flex justify-center items-center"
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     type="submit"
-                                    disabled={isSubmitting}
-                                >
+                                    disabled={isSubmitting}>
                                     {isSubmitting ? (
                                         <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>
                                             <IconLoader2 stroke={2} />
@@ -146,10 +131,7 @@ const LoginPage = () => {
                                 </motion.button>
                             </form>
 
-                            <button
-                                onClick={() => setShow2FA(false)}
-                                className="mt-4 text-blue-500 hover:text-blue-700 text-sm"
-                            >
+                            <button onClick={() => setShow2FA(false)} className="mt-4 text-blue-500 hover:text-blue-700 text-sm">
                                 {t("back_to_login")}
                             </button>
                         </>

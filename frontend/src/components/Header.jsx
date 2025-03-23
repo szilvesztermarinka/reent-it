@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
+import SettingsModal from "./SettingsModal";
 
 const Header = () => {
     const { i18n } = useTranslation();
@@ -93,15 +94,7 @@ const Header = () => {
             </div>
             {/* Settings Modal */}
             {isSettingsOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
-                        <h2 className="text-xl font-bold mb-4">Settings</h2>
-                        <p>Here you can manage your account settings.</p>
-                        <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded" onClick={() => setIsSettingsOpen(false)}>
-                            Close
-                        </button>
-                    </div>
-                </div>
+                <SettingsModal onClose={() => setIsSettingsOpen(false)}/>
             )}
         </div>
     );
