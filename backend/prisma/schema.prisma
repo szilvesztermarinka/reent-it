@@ -52,6 +52,7 @@ model Listing {
   city    String
   country String
   county  String
+  address String?
 
   yard     Yard
   landArea Int?

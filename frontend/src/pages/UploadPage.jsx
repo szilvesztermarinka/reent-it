@@ -152,6 +152,20 @@ const DataInputStep = React.memo(({ formData, setFormData, errors }) => (
       </div>
 
       <div>
+        <label className="block text-sm font-medium mb-1">Cím</label>
+        <input
+          type="text"
+          value={formData.address}
+          onChange={(e) => setFormData("address", e.target.value)}
+          className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="Pl.: Luther utca 13"
+        />
+        {errors.city && (
+          <p className="text-red-500 text-sm mt-1">{errors.city}</p>
+        )}
+      </div>
+
+      <div>
         <label className="block text-sm font-medium mb-1">Megye</label>
         <input
           type="text"
@@ -368,10 +382,10 @@ const ReviewStep = React.memo(({ formData }) => (
               ? "Kert"
               : "Közös kert"}
           </p>
-          <p>
+{/*           <p>
             <span className="font-medium">Koordináták:</span>{" "}
             {formData.location[0].toFixed(4)}, {formData.location[1].toFixed(4)}
-          </p>
+          </p> */}
         </div>
       </div>
 
@@ -458,12 +472,12 @@ const UploadPage = () => {
     city: "",
     country: "Magyarország",
     county: "",
+    address: "",
     yard: "Garden",
     landArea: "",
     built: "",
     images: [],
     mainImage: 0,
-    location: [47.4979, 19.0402], // Budapest
   });
 
   // Validációs szabályok
@@ -483,6 +497,7 @@ const UploadPage = () => {
         if (!formData.city?.trim()) newErrors.city = "Kötelező mező";
         if (!formData.county?.trim()) newErrors.county = "Kötelező mező";
         if (!formData.yard) newErrors.yard = "Kötelező mező";
+        if (!formData.address?.trim()) newErrors.address = "Kötelező mező";
       }
 
       setErrors(newErrors);
@@ -552,12 +567,12 @@ const UploadPage = () => {
       livingroom: formData.livingroom,
       balcony: formData.balcony || "",
       city: formData.city,
+      address: formData.address,
       country: formData.country,
       county: formData.county,
       yard: formData.yard,
       landArea: formData.landArea || "",
       built: formData.built || "",
-      coords: JSON.stringify(formData.location),
     };
 
     // Szöveges mezők hozzáadása

@@ -12,17 +12,17 @@ const Mapbox = ({ ads }) => {
 
   const calculateCenter = (ads) => {
     const validCoords = ads.filter(
-      (item) => item.coords.lat && item.coords.long
+      (item) => item.coords.lat && item.coords.lng
     );
     if (validCoords.length === 0) return [47.50748265850585, 19.04492472631566];
 
     const latSum = validCoords.reduce((sum, item) => sum + item.coords.lat, 0);
-    const longSum = validCoords.reduce(
-      (sum, item) => sum + item.coords.long,
+    const lngSum = validCoords.reduce(
+      (sum, item) => sum + item.coords.lng,
       0
     );
 
-    return [latSum / validCoords.length, longSum / validCoords.length];
+    return [latSum / validCoords.length, lngSum / validCoords.length];
   };
 
   const center = calculateCenter(ads);
@@ -96,10 +96,10 @@ const Mapbox = ({ ads }) => {
         {ads.map(
           (item) =>
             item.coords.lat &&
-            item.coords.long && (
+            item.coords.lng && (
               <Marker
                 key={item.id}
-                position={[item.coords.lat, item.coords.long]}
+                position={[item.coords.lat, item.coords.lng]}
                 icon={createCustomIcon(item.price, item.listtype)}
               >
                 <Popup>
