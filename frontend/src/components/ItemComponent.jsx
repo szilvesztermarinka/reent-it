@@ -15,11 +15,16 @@ const ImageModal = ({ images, currentIndex, onClose, onNavigate }) => (
             onClose();
         }}>
         <div className="relative flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
-            <div className="fixed top-4 right-4 flex gap-2 z-50">
-                <button className="text-white bg-gray-800 p-2 rounded-full" onClick={onNavigate}>
+            <div className="fixed top-4 left-4 z-50 bg-black/50 p-2 text-white">
+                <p>
+                    {currentIndex + 1}/{images.length}
+                </p>
+            </div>
+            <div className="fixed top-4 right-4 flex gap-2 z-50 bg-black/50 p-2">
+                <button className="text-white p-2 rounded-full" onClick={onNavigate}>
                     <IconExternalLink size={24} />
                 </button>
-                <button className="text-white bg-gray-800 p-2 rounded-full" onClick={onClose}>
+                <button className="text-white p-2 rounded-full" onClick={onClose}>
                     <IconX size={24} />
                 </button>
             </div>
@@ -63,11 +68,11 @@ const ItemComponent = (item) => {
 
     return (
         <div className="flex bg-white border border-gray-200 rounded-xl hover:shadow transition cursor-pointer" onClick={() => window.open(`/post/${item.id}`, "_blank")}>
-            <div className="mr-2 relative">
-                <img src={item.images[0]} alt="Kép" className="w-36 h-36 rounded-l object-fill cursor-pointer" onClick={(e) => openImageModal(0, e)} />
+            <div className="mr-2 relative group overflow-hidden">
+                <img src={item.images[0]} alt="Kép" className="w-36 h-36 rounded-l object-fill cursor-pointer group-hover:scale-105" onClick={(e) => openImageModal(0, e)} />
                 {item.images.length !== 1 && <div className="absolute bg-black/50 top-0 right-0 z-10 text-white px-4 py-2 rounded-es">{item.images.length}</div>}
             </div>
-            <div className="flex-1 flex flex-col p-2 justify-between">
+            <div className="flex-1 flex flex-col p-2 justify-between group-hover:bg-black">
                 <div>
                     <div className="flex justify-between">
                         <div className="flex items-end gap-1">
