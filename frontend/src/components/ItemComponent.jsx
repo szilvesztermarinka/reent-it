@@ -31,11 +31,11 @@ const ImageModal = ({ images, currentIndex, onClose, onNavigate }) => (
 
             <img src={images[currentIndex]} alt="Nagy kép" className="h-[70vh] object-contain rounded-lg" />
             {images.length > 1 && (
-                <div className="flex gap-4 mt-2">
-                    <button className="text-white bg-gray-800 p-2 rounded-full" onClick={() => onNavigate(-1)}>
+                <div className="flex gap-4 mt-2 bg-black/50 p-2">
+                    <button className="text-white p-2 rounded-full" onClick={() => onNavigate(-1)}>
                         <IconChevronLeft size={24} />
                     </button>
-                    <button className="text-white bg-gray-800 p-2 rounded-full" onClick={() => onNavigate(1)}>
+                    <button className="text-white p-2 rounded-full" onClick={() => onNavigate(1)}>
                         <IconChevronRight size={24} />
                     </button>
                 </div>
