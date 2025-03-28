@@ -1,4 +1,4 @@
-import { IconBellFilled, IconBookmarkFilled, IconLogout, IconNotes, IconSettings, IconUpload, IconUser } from "@tabler/icons-react";
+import { IconBookmark, IconBookmarkFilled, IconLogout, IconNotes, IconSettings, IconUpload, IconUser } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import { useState } from "react";
@@ -33,8 +33,6 @@ const Header = () => {
                     <Link to="/upload">
                         <IconUpload />
                     </Link>
-                    <IconBellFilled />
-                    <IconBookmarkFilled />
                     <motion.div className="w-10 h-10 cursor-pointer relative" whileHover={{ scale: 1.02 }} onClick={toggleDropDown}>
                         <img src={user.avatar} alt="avatar" className="w-full h-full rounded-full" />
                     </motion.div>
@@ -69,6 +67,13 @@ const Header = () => {
                                     <IconNotes stroke={2} className="text-gray-500" />
                                 </div>
                                 <p className="text-black">My advertisements</p>
+                            </div>
+
+                            <div className="w-full flex cursor-pointer items-center hover:bg-gray-100 px-4 py-2 rounded">
+                                <div className="w-10 h-10 items-center justify-center flex">
+                                    <IconBookmark stroke={2} className="text-gray-500"/>
+                                </div>
+                                <p className="text-black">Saved ads</p>
                             </div>
 
                             <div className="group w-full flex cursor-pointer items-center hover:bg-gray-100 px-4 py-2 rounded" onClick={handleLogout}>

@@ -83,7 +83,7 @@ const ItemComponent = (item) => {
                         </div>
                         <div className={`px-2 py-1 text-xs font-bold rounded-full flex items-center ${item.listtype === "Rent" ? "bg-amber-100 text-amber-500" : item.listtype === "Buy" ? "bg-green-100 text-green-500" : "bg-blue-100 text-blue-500"}`}>{t(item.listtype.toLowerCase())}</div>
                     </div>
-                    <p className="text-xs text-gray-500">Debrecen, Egyetem sugárút</p>
+                    <p className="text-xs text-gray-500">{item.city}, {item.address}</p>
                 </div>
                 <div className="flex gap-2 mt-2">
                     {[

@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next"; // useTranslation importálása
 function Sidebar({ onFiltersChange }) {
     const { t } = useTranslation(); // useTranslation hook
     const [searchParams, setSearchParams] = useSearchParams(); // URL paraméterek kezelése
-    const locationQuery = searchParams.get("location") || "";
+    const locationQuery = searchParams.get("city") || "";
 
     // Szűrők frissítése URL paraméterekben
     const updateParam = (name, value) => {
@@ -29,7 +29,7 @@ function Sidebar({ onFiltersChange }) {
     };
 
     const handleLocationChange = (e) => {
-        updateParam("location", e.target.value);
+        updateParam("city", e.target.value);
     };
 
     // Szűrőváltozások továbbítása
