@@ -1,5 +1,5 @@
 # Reent it
-## The project now is Running on 213.181.206.85:3000
+## The project will be available on 213.181.206.85:3000
 
 ---
 
