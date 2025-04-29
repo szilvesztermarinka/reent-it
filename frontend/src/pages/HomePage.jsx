@@ -8,6 +8,7 @@ import Mapbox from "../components/Mapbox";
 const HomePage = () => {
   const [post, setPost] = useState([]);
   const [filters, setFilters] = useState({});
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const getPosts = useCallback(async () => {
     try {
@@ -29,13 +30,16 @@ const HomePage = () => {
 
   return (
     <div className="h-screen flex flex-col">
-      <Header />
+      <Header sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen} />
       <div className="flex-1 flex min-h-0">
         <Sidebar
           className="fixed top-0 left-0 h-screen"
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
           onFiltersChange={handleFiltersChange}
         />
-        <div className="flex-1 ml-64 md:ml-0 transition-all duration-300 flex min-h-0">
+        <div className="flex-1 ml-0 md:ml-0 transition-all duration-300 flex min-h-0">
           <div className="flex flex-1">
             <div className="flex flex-col flex-1 overflow-y-auto m-6 gap-4">
               <h2 className="text-lg font-bold text-gray-800">
@@ -45,8 +49,8 @@ const HomePage = () => {
                 <ItemComponent key={item.id} {...item} />
               ))}
             </div>
-            <div className="w-1/2 flex flex-col">
-              <div className="flex-1 min-h-0">
+            <div className="w-1/2 hidden lg:flex flex-col   ">
+              <div className="flex-1 min-h-1  ">
                 <Mapbox ads={post} />
               </div>
             </div>

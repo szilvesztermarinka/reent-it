@@ -1,16 +1,19 @@
-import { IconBookmark, IconBookmarkFilled, IconLogout, IconNotes, IconSettings, IconUpload, IconUser } from "@tabler/icons-react";
+import { IconBookmark, IconLogout, IconNotes, IconSettings, IconUpload, IconUser, IconX, IconMenu2 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import SettingsModal from "./SettingsModal";
 
-const Header = () => {
+
+const Header = ({ sidebarOpen, setSidebarOpen }) => {
     const { user, logout } = useAuth();
     const [dropDownMenu, setDropDownMenu] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const location = useLocation();
+    const isHomePage= location.pathname==="/";
 
     const toggleDropDown = () => {
         setDropDownMenu((prev) => !prev);
@@ -22,9 +25,17 @@ const Header = () => {
     };
 
     return (
-        <div className="bg-white w-full py-4 px-16 border-b z-50">
+        <div className="bg-white w-full py-4 px-8 md:px-16 border-b z-50">
             <div className="flex justify-between items-center">
-                <div>
+                {location.pathname === "/" && (
+                    <button
+                        onClick={() => setSidebarOpen(!sidebarOpen)}
+                        className="p-2 rounded bg-main-green-400 text-white md:hidden"
+                    >
+                        {sidebarOpen ? <IconX size={24} /> : <IconMenu2 size={24} />}
+                    </button>
+                )}
+                <div className={`${isHomePage ? "hidden md:block" : "block"}`}>
                     <Link to="/">
                         <img src="/logo.png" alt="logo" className="w-10 aspect-square" />
                     </Link>
@@ -36,8 +47,10 @@ const Header = () => {
                     <motion.div className="w-10 h-10 cursor-pointer relative" whileHover={{ scale: 1.02 }} onClick={toggleDropDown}>
                         <img src={user.avatar} alt="avatar" className="w-full h-full rounded-full" />
                     </motion.div>
+                    {/*  in-mw-96 py-4 px-4 absolute top-20 right-10 bg-white rounded-md z-50 shadow  */}
                     {dropDownMenu && (
-                        <div className="min-w-96 py-4 px-4 absolute top-20 right-10 bg-white rounded-md z-50 shadow" ref={dropdownRef}>
+                        <div className="in-mw-72 py-3 px-3 text-sm absolute top-20 right-10 bg-white rounded-md z-50 shadow 
+                          md:min-w-96 md:py-4 md:px-4 md:text-md" ref={dropdownRef}>
                             <div className="w-full flex gap-2 cursor-pointer items-center hover:bg-gray-100 px-4 py-4 rounded">
                                 <div className="w-10 h-10">
                                     <img src={user.avatar} alt="avatar" className="w-full h-full rounded-full" />
@@ -71,7 +84,7 @@ const Header = () => {
 
                             <div className="w-full flex cursor-pointer items-center hover:bg-gray-100 px-4 py-2 rounded">
                                 <div className="w-10 h-10 items-center justify-center flex">
-                                    <IconBookmark stroke={2} className="text-gray-500"/>
+                                    <IconBookmark stroke={2} className="text-gray-500" />
                                 </div>
                                 <p className="text-black">Saved ads</p>
                             </div>

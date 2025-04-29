@@ -4,13 +4,16 @@ import HomePage from "./pages/HomePage";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import { Toaster, toast } from "react-hot-toast";
-import { useEffect } from "react";
+import { useEffect, } from "react";
 import { motion } from "framer-motion";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
 import Notfound from "./pages/404";
 import UploadPage from "./pages/UploadPage";
 import PostPage from "./pages/PostPage";
 import { IconLoader2 } from "@tabler/icons-react";
+import { Sidebar } from "lucide-react";
+
+
 
 function App() {
     const { isAuthenticated, isCheckingAuth, error, message, user } = useAuth();
@@ -35,6 +38,8 @@ function App() {
 
     return (
         <div className="h-screen bg-gray-100">
+           
+
             <Toaster position="bottom-right" reverseOrder={false} />
 
             <Routes>

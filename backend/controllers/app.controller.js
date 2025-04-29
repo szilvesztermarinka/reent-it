@@ -18,7 +18,13 @@ export const getAllAd = async (req, res) => {
 
         for (const [key, value] of Object.entries(query)) {
             const [field, operator] = key.split("_");
-            if (operator && OPERATORS[operator]) {
+        
+            if (key === "city") {
+                filters["city"] = {
+                    contains: value,
+                    mode: "insensitive", // kis- és nagybetűre érzéketlen keresés
+                };
+            } else if (operator && OPERATORS[operator]) {
                 filters[field] = {
                     ...(filters[field] || {}),
                     [OPERATORS[operator]]: isNaN(value) ? value : parseFloat(value),

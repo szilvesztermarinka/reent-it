@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { IconHome, IconBuildingSkyscraper, IconBed, IconBuildingCommunity, IconMapPin, IconChevronDown } from "@tabler/icons-react";
+import { IconHome, IconBuildingSkyscraper, IconBed, IconBuildingCommunity, IconMapPin, IconChevronDown,} from "@tabler/icons-react";
 import { useTranslation } from "react-i18next"; // useTranslation importálása
 
-function Sidebar({ onFiltersChange }) {
+
+function Sidebar({ onFiltersChange, sidebarOpen,}) {
     const { t } = useTranslation(); // useTranslation hook
     const [searchParams, setSearchParams] = useSearchParams(); // URL paraméterek kezelése
     const locationQuery = searchParams.get("city") || "";
@@ -44,9 +45,13 @@ function Sidebar({ onFiltersChange }) {
         return `flex flex-col items-center p-2.5 gap-2.5 rounded w-full text-xs font-medium ${isActive ? "bg-main-green-400 text-white" : "bg-gray-100 text-main-green-400"}`;
     };
 
+    //flex flex-col gap-6 pl-16 pr-6 max-w-80 mt-4
     return (
-        <div className="bg-white">
-            <div className="flex flex-col gap-6 pl-16 pr-6 max-w-80 mt-4">
+        <div className={`fixed md:relative z-20 h-full bg-white transition-all duration-300 ease-in-out border-r
+            ${sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full md:translate-x-0 md:w-64'}
+            flex flex-col gap-6 pl-16 pr-6 max-w-80 mt-1`}>
+           
+            <div className={`${!sidebarOpen ? 'hidden md:block' : ''}`}>
                 <div>
                     <p className="font-bold text-base py-4">{t("property_type")}</p>
                     <div className="grid grid-cols-2 gap-x-2 gap-y-2 justify-items-center">
@@ -65,6 +70,9 @@ function Sidebar({ onFiltersChange }) {
                         ))}
                     </div>
                 </div>
+
+
+
 
                 <div>
                     <p className="font-bold text-base py-4">{t("search_location")}</p> {/* Nyelvi kulcs */}
