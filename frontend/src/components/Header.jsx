@@ -1,19 +1,18 @@
-import { IconBookmark, IconLogout, IconNotes, IconSettings, IconUpload, IconUser, IconX, IconMenu2 } from "@tabler/icons-react";
+import { IconBookmark, IconLogout, IconNotes, IconSettings, IconUpload, IconUser, } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Link, useLocation } from "react-router";
+import { Link,} from "react-router";
 import SettingsModal from "./SettingsModal";
 
 
-const Header = ({ sidebarOpen, setSidebarOpen }) => {
+const Header = () => {
     const { user, logout } = useAuth();
     const [dropDownMenu, setDropDownMenu] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const dropdownRef = useRef(null);
-    const location = useLocation();
-    const isHomePage= location.pathname==="/";
+  
 
     const toggleDropDown = () => {
         setDropDownMenu((prev) => !prev);
@@ -27,15 +26,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
     return (
         <div className="bg-white w-full py-4 px-8 md:px-16 border-b z-50">
             <div className="flex justify-between items-center">
-                {location.pathname === "/" && (
-                    <button
-                        onClick={() => setSidebarOpen(!sidebarOpen)}
-                        className="p-2 rounded bg-main-green-400 text-white md:hidden"
-                    >
-                        {sidebarOpen ? <IconX size={24} /> : <IconMenu2 size={24} />}
-                    </button>
-                )}
-                <div className={`${isHomePage ? "hidden md:block" : "block"}`}>
+                <div>
                     <Link to="/">
                         <img src="/logo.png" alt="logo" className="w-10 aspect-square" />
                     </Link>

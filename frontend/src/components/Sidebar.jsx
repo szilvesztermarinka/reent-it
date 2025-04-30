@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect,} from "react";
 import { useSearchParams } from "react-router-dom";
 import { IconHome, IconBuildingSkyscraper, IconBed, IconBuildingCommunity, IconMapPin, IconChevronDown,} from "@tabler/icons-react";
 import { useTranslation } from "react-i18next"; // useTranslation importálása
@@ -49,7 +49,7 @@ function Sidebar({ onFiltersChange, sidebarOpen,}) {
     return (
         <div className={`fixed md:relative z-20 h-full bg-white transition-all duration-300 ease-in-out border-r
             ${sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full md:translate-x-0 md:w-64'}
-            flex flex-col gap-6 pl-16 pr-6 max-w-80 mt-1`}>
+            flex flex-col gap-6 pl-16 pr-6 max-w-80 mt-0`}>
            
             <div className={`${!sidebarOpen ? 'hidden md:block' : ''}`}>
                 <div>
