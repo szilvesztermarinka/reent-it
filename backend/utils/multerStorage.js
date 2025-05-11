@@ -12,7 +12,6 @@ export const multerStorage = (fieldName, multiple = false) => {
             cb(null, path.join(__dirname, "../uploads"));
         },
         filename: (req, file, cb) => {
-            console.log(file)
             const sanitizedFileName = file.originalname
                 .normalize("NFD")
                 .replace(/[\u0300-\u036f]/g, "")

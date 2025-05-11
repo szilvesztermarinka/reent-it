@@ -211,10 +211,10 @@ export const createListing = async (req, res) => {
 
         let parsedCoords;
         if (!coords) {
-            const fullAddress = `${city}, ${address}, ${country}, ${county}`;
+            const fullAddress = `${city}, ${address}, ${country}`;
             const apiKey = process.env.OPECAGE_API;
             const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(fullAddress)}&key=${apiKey}`;
-            console.log(url);
+            console.log(url)
             const geoResponse = await fetch(url);
             const geoData = await geoResponse.json();
 
@@ -226,11 +226,12 @@ export const createListing = async (req, res) => {
             }
 
             parsedCoords = {
-                lat: geoData.results[1].geometry.lat,
-                lng: geoData.results[1].geometry.lng,
+                lat: geoData.results[0].geometry.lat,
+                lng: geoData.results[0].geometry.lng,
             };
 
-            console.log(geoData.results.map((r) => r.geometry));
+            console.log(`Parsed coordinates: ${JSON.stringify(parsedCoords)}`);
+
         } else {
             try {
                 parsedCoords = typeof coords === "string" ? JSON.parse(coords) : coords;
@@ -270,7 +271,6 @@ export const createListing = async (req, res) => {
                 // Egyedi fájlnév generálása és útvonal beállítása
                 const uniqueName = uuidv4();
                 const watermarkedPath = path.resolve(__dirname, "../images", `${uniqueName}_watermarked.jpg`);
-                console.log("Watermark will be saved at:", watermarkedPath);
 
                 // Ellenőrizzük, hogy az `images` mappa létezik-e
                 if (!fs.existsSync(path.dirname(watermarkedPath))) {
@@ -280,9 +280,6 @@ export const createListing = async (req, res) => {
 
                 // Vízjel hozzáadása
                 await addWatermark(file.path, watermarkedPath, "reentit.com")
-                    .then(() => {
-                        console.log("Watermark added successfully.");
-                    })
                     .catch((error) => {
                         console.error("error: ", error.message);
                     });
@@ -331,6 +328,8 @@ export const createListing = async (req, res) => {
                 coords: parsedCoords,
             },
         });
+
+        console.log("Sikeres feltöltés")
 
         res.status(201).json({
             success: true,
