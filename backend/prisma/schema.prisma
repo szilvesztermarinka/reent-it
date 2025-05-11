@@ -54,6 +54,9 @@ model Listing {
   county  String
   address String?
 
+  bathrooms  Int     @default(1)
+  furnished  Boolean @default(false)
+
   yard     Yard
   landArea Int?
   built    Int?

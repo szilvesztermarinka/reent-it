@@ -2,7 +2,14 @@ import React, { useCallback, useEffect, useState } from "react";
 import Header from "../components/Header";
 import { appAPI } from "../services/api";
 import { useParams } from "react-router-dom";
-import { IconBathFilled, IconBedFilled, IconBrandYoutube, IconChevronLeft, IconChevronRight, IconX } from "@tabler/icons-react";
+import {
+    IconBathFilled,
+    IconBedFilled,
+    IconBrandYoutube,
+    IconChevronLeft,
+    IconChevronRight,
+    IconX
+} from "@tabler/icons-react";
 
 const ImageModal = ({ images, currentIndex, onClose, onNavigate }) => (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50" onClick={onClose}>
@@ -87,13 +94,27 @@ const PostPage = () => {
         <div className="flex flex-col min-h-screen bg-gray-100">
             <Header />
             <div className="container mx-auto px-6 py-10 flex flex-col lg:flex-row gap-8">
-                <div className="w-full lg:w-1/2" onClick={(e) => openImageModal(0, e)}>
-                    {ad.images?.[0] && <img src={ad.images[0]} alt="thumbnail" className="rounded-xl w-full object-cover aspect-square" />}
+                <div className="w-full lg:w-1/2">
+                    <div onClick={(e) => openImageModal(0, e)} className="cursor-pointer">
+                        {ad.images?.[0] && <img src={ad.images[0]} alt="thumbnail" className="rounded-xl w-full object-cover aspect-square" />}
+                    </div>
                     <div className="flex mt-4 gap-2">
                         {ad.images?.slice(1, 4).map((image, index) => (
-                            <img key={index} src={image} alt="" className="w-1/3 rounded-lg object-cover" />
+                            <img
+                                key={index}
+                                src={image}
+                                alt=""
+                                className="w-1/3 rounded-lg object-cover cursor-pointer"
+                                onClick={(e) => openImageModal(index + 1, e)}
+                            />
                         ))}
                     </div>
+                    {ad.address && (
+                        <div className="mt-4 bg-white p-4 rounded-lg shadow">
+                            <h2 className="text-lg font-bold">Cím</h2>
+                            <p className="text-gray-700">{ad.address.city}, {ad.address.street} {ad.address.houseNumber}</p>
+                        </div>
+                    )}
                 </div>
 
                 <div className="w-full lg:w-1/2">
@@ -125,9 +146,49 @@ const PostPage = () => {
                             <IconBrandYoutube /> Videó megtekintése
                         </a>
                     )}
+                    {ad.user && (
+                        <div className="mt-6 bg-white p-4 rounded-lg shadow">
+                            <h2 className="text-xl font-bold">Hirdető</h2>
+                            <p className="text-gray-700"><span className="font-semibold">Név:</span> {ad.user.name}</p>
+                            <p className="text-gray-700"><span className="font-semibold">Email:</span> {ad.user.email}</p>
+                        </div>
+                    )}
+                    {ad.reviews && ad.reviews.length > 0 && (
+                        <div className="mt-6 bg-white p-4 rounded-lg shadow">
+                            <h2 className="text-xl font-bold">Vélemények</h2>
+                            {ad.reviews.map((review, index) => (
+                                <div key={index} className="mt-2 border-t pt-2">
+                                    <p className="text-gray-800 font-semibold">{review.name}</p>
+                                    <p className="text-gray-600 italic">"{review.text}"</p>
+                                    {review.date && <p className="text-gray-500 text-sm mt-1">{review.date}</p>}
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
-            {isImageModalOpen && <ImageModal images={ad.images} currentIndex={currentImageIndex} onClose={() => setIsImageModalOpen(false)} onNavigate={(dir) => setCurrentImageIndex((prev) => (prev + dir + ad.images.length) % ad.images.length)} />}
+            {ad.similarAds && ad.similarAds.length > 0 && (
+                <div className="container mx-auto px-6 pb-10">
+                    <h2 className="text-2xl font-bold mb-4">Ez is érdekelhet</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        {ad.similarAds.map((similarAd, index) => (
+                            <div key={index} className="bg-white rounded-lg shadow p-4">
+                                <img src={similarAd.images?.[0]} alt="" className="w-full h-48 object-cover rounded-md mb-2" />
+                                <h3 className="font-semibold text-lg">{similarAd.price} Ft</h3>
+                                <p className="text-sm text-gray-600">{similarAd.address?.city}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+            {isImageModalOpen && (
+                <ImageModal
+                    images={ad.images}
+                    currentIndex={currentImageIndex}
+                    onClose={() => setIsImageModalOpen(false)}
+                    onNavigate={(dir) => setCurrentImageIndex((prev) => (prev + dir + ad.images.length) % ad.images.length)}
+                />
+            )}
         </div>
     );
 };

@@ -18,7 +18,7 @@ export const getAllAd = async (req, res) => {
 
         for (const [key, value] of Object.entries(query)) {
             const [field, operator] = key.split("_");
-        
+
             if (key === "city") {
                 filters["city"] = {
                     contains: value,
@@ -56,8 +56,10 @@ export const getAddById = async (req, res) => {
         const { id } = req.params;
 
         const ad = await prisma.listing.findUnique({
-            where: {
-                id,
+            where: { id },
+            include: {
+                owner: true,
+                isSaved: true,
             },
         });
 
@@ -65,9 +67,55 @@ export const getAddById = async (req, res) => {
             return res.status(404).json({ success: false, message: "Ad not found" });
         }
 
+        // Parse address components
+        const addressParts = ad.address?.match(/(.+?)\s(\d+)$/) || [];
+        const formattedAd = {
+            ...ad,
+            address: {
+                city: ad.city,
+                street: addressParts[1] || "",
+                houseNumber: addressParts[2] || ""
+            },
+            user: {
+                name: `${ad.owner.firstname} ${ad.owner.lastname}`,
+                email: ad.owner.email
+            },
+            rooms: ad.bedroom + ad.livingroom,
+            bathrooms: 1, // Módosítandó a séma szerint
+            furnished: false, // Módosítandó a séma szerint
+            size: ad.landArea || ad.built || 0
+        };
+
+        // Get similar listings
+        const similarAds = await prisma.listing.findMany({
+            where: {
+                city: ad.city,
+                propertyType: ad.propertyType,
+                id: { not: id }
+            },
+            take: 3,
+            include: { owner: true }
+        });
+
+        // Format similar ads
+        const formattedSimilar = similarAds.map(sa => ({
+            ...sa,
+            price: sa.price,
+            address: { city: sa.city },
+            images: sa.images
+        }));
+
         res.status(200).json({
             success: true,
-            ad,
+            ad: {
+                ...formattedAd,
+                similarAds: formattedSimilar,
+                reviews: [{
+                    name: "Hagyó Csaba",
+                    text: "...Lorem ipsum dolor sit amet consectetur.",
+                    date: "2025. Február"
+                }]
+            }
         });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
