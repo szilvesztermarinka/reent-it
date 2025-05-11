@@ -1,4 +1,4 @@
-import { IconBookmark, IconBookmarkFilled, IconLogout, IconNotes, IconSettings, IconUpload, IconUser } from "@tabler/icons-react";
+import { IconBookmark, IconLogout, IconNotes, IconSettings, IconUpload, IconUser } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import { useState } from "react";

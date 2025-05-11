@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import { appAPI } from "../services/api";
 import { useParams } from "react-router-dom";
 import { IconBathFilled, IconBedFilled, IconBrandYoutube, IconChevronLeft, IconChevronRight, IconX } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 
 const ImageModal = ({ images, currentIndex, onClose, onNavigate }) => (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50" onClick={onClose}>
@@ -52,6 +53,7 @@ const PostPage = () => {
     const [ad, setAd] = useState({});
     const [isImageModalOpen, setIsImageModalOpen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -97,8 +99,13 @@ const PostPage = () => {
                 </div>
 
                 <div className="w-full lg:w-1/2">
-                    <h1 className="text-3xl font-bold">{ad.price} Ft</h1>
-                    <p className="text-gray-500">Havonta</p>
+                    <div className="flex justify-between items-start">
+                        <div>
+                            <h1 className="text-2xl font-bold">{ad.price} Ft</h1>
+                            <p className="text-gray-500">Havonta</p>
+                        </div>
+                        <div className={`px-2 py-1 text-base font-bold rounded-full flex items-center ${ad.listtype === "Rent" ? "bg-amber-100 text-amber-500" : ad.listtype === "Buy" ? "bg-green-100 text-green-500" : "bg-blue-100 text-blue-500"}`}>{t(ad.listtype)}</div>
+                    </div>
                     <div className="mt-6">
                         <h2 className="text-xl font-bold">Áttekintés</h2>
                         <div className="grid grid-cols-2 gap-4 mt-3 bg-white p-4 rounded-lg shadow">
