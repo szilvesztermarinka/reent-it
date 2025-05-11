@@ -14,10 +14,10 @@ const SettingsModal = ({ onClose }) => {
     };
 
     const tabs = [
-        { name: "Profile", icon: <IconFaceId size={20} className="mr-2 text-gray-500" /> },
-        { name: "Account", icon: <IconSettings size={20} className="mr-2 text-gray-500" /> },
-        { name: "Appearance", icon: <IconDeviceLaptop size={20} className="mr-2 text-gray-500" /> },
-        { name: "Notification", icon: <IconBell size={20} className="mr-2 text-gray-500" /> },
+        { name: "Profile", icon: <IconFaceId size={30} className="text-gray-500" /> },
+        { name: "Account", icon: <IconSettings size={30} className="text-gray-500" /> },
+        { name: "Appearance", icon: <IconDeviceLaptop size={30} className="text-gray-500" /> },
+        { name: "Notification", icon: <IconBell size={30} className="text-gray-500" /> },
     ];
 
     return (
@@ -28,8 +28,14 @@ const SettingsModal = ({ onClose }) => {
                     <h2 className="font-bold mb-4">Settings</h2>
                     <ul>
                         {tabs.map((tab) => (
-                            <li key={tab.name} className={`cursor-pointer p-2 rounded flex items-center ${selectedTab === tab.name ? "bg-gray-200" : ""}`} onClick={() => setSelectedTab(tab.name)}>
-                                {tab.icon} {tab.name}
+                            <li
+                                key={tab.name}
+                                className={`cursor-pointer p-4 rounded flex flex-col items-center justify-center ${selectedTab === tab.name ? "bg-gray-200" : ""}`}
+                                onClick={() => setSelectedTab(tab.name)}
+                            >
+                                {tab.icon}
+                                {/* Az alábbi sor fogja eltüntetni a szöveget mobil nézetben */}
+                                <span className="hidden md:inline mt-2">{tab.name}</span>
                             </li>
                         ))}
                     </ul>
@@ -44,8 +50,8 @@ const SettingsModal = ({ onClose }) => {
                                 <div className="flex flex-row items-center gap-4">
                                     <img src={user.avatar} alt="Profile" className="w-24 h-24 rounded-full border mr-4" />
                                     <div>
-                                        <button className="bg-blue-500 text-white text-sm px-3 py-1 rounded mr-2">Change Picture</button>
-                                        <button className="bg-red-500 text-white text-sm px-3 py-1 rounded">Delete Picture</button>
+                                        <button className="bg-blue-500 text-white text-xs px-2 py-1 rounded mr-2 sm:text-sm sm:px-3 sm:py-2">Change Picture</button>
+                                        <button className="bg-red-500 text-white text-xs px-2 py-1 rounded sm:text-sm sm:px-3 sm:py-2">Delete Picture</button>
                                     </div>
                                 </div>
                             </div>
